@@ -12,8 +12,8 @@ export class CompanyService {
     private companiesRepository: Repository<Company>,
   ) {}
 
-  create(createCompanyDto: CreateCompanyDto) {
-    return 'This action adds a new company';
+  async create(createCompanyDto: CreateCompanyDto) {
+    return await this.companiesRepository.save(createCompanyDto);
   }
 
   async findAll(): Promise<Company[]> {

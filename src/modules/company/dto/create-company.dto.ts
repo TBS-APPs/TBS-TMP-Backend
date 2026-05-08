@@ -6,18 +6,8 @@ export class CreateCompanyDto {
 
   @IsNotEmpty()
   alias: string;
+
+  // @ValidateNested()
+  // @Type(() => CreateDynamicsSettingDto)
+  // dynamicsSettings: CreateDynamicsSettingDto;
 }
-
-// @PrimaryGeneratedColumn()
-// id: number;
-
-// @Column({
-//   nullable: false,
-// })
-// name: string;
-
-// @Column({
-//   nullable: false,
-//   unique: true,
-// })
-// alias: string;
