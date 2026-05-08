@@ -8,6 +8,7 @@ export default class Module {
 
   @Column({
     nullable: false,
+    unique: true,
   })
   name: string;
 
