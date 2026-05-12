@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CompanyModule } from './modules/company/company.module';
 import { ModuleModule } from './modules/module/module.module';
+import { TransformInterceptor } from './core/utils/transform/transform.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { ModuleModule } from './modules/module/module.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      synchronize: process.env.NODE_ENV === 'development' ? true : false,
+      synchronize: process.env.NODE_ENV === 'development' ? false : false,
       autoLoadEntities: true,
       logger: 'advanced-console',
       logging: true,
@@ -27,6 +29,12 @@ import { ModuleModule } from './modules/module/module.module';
     ModuleModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor,
+    },
+  ],
 })
 export class AppModule {}
