@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DynamicsSettingsService } from './dynamics-settings.service';
 import { CreateDynamicsSettingDto } from './dto/create-dynamics-setting.dto';
@@ -25,6 +26,11 @@ export class DynamicsSettingsController {
   @Get()
   findAll() {
     return this.dynamicsSettingsService.findAll();
+  }
+
+  @Get('company/:companyId')
+  findByCompanyId(@Param('companyId', ParseIntPipe) companyId: number) {
+    return this.dynamicsSettingsService.findByCompanyId(companyId);
   }
 
   @Get(':id')

@@ -22,7 +22,7 @@ import { join } from 'path';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      synchronize: process.env.NODE_ENV === 'development' ? false : false,
+      synchronize: process.env.NODE_ENV === 'development' ? true : false,
       autoLoadEntities: true,
       logger: 'advanced-console',
       logging: true,
