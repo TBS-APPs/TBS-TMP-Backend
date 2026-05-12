@@ -1,3 +1,4 @@
 {
-  "internal_server_error": "خطأ في الخادم الداخلي"
+  "internal_server_error": "خطأ في الخادم الداخلي",
+  "provide_exactly_one_of_id_or_alias": "يرجى تقديم إما المعرف أو الاسم المختصر فقط"
 }
