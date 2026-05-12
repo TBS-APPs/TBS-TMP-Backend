@@ -47,6 +47,18 @@ export class CompanyService {
     }
   }
 
+  async findOneWithDetails(where: { id: number } | { alias: string }) {
+    try {
+      const company = await this.companiesRepository.findOne({
+        where,
+        relations: ['dynamicsSettings', 'licenses', 'licenses.module'],
+      });
+      return successResponse({ data: company });
+    } catch {
+      return errorResponse();
+    }
+  }
+
   async update(id: number, updateCompanyDto: UpdateCompanyDto) {
     try {
       const company = await this.companiesRepository.update(
