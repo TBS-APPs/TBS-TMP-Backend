@@ -12,6 +12,7 @@ import {
 import { Status } from 'src/resources/enums/status.enum';
 import DynamicsSetting from '../dynamics-settings/entities/dynamics-setting.entity';
 import { License } from '../license/entities/license.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Company {
@@ -44,12 +45,15 @@ export class Company {
   @OneToMany(() => License, (license) => license.company)
   licenses: License[];
 
+  @Exclude()
   @CreateDateColumn()
   createdAt: Date;
 
+  @Exclude()
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Exclude()
   @DeleteDateColumn()
   deletedAt: Date;
 }
