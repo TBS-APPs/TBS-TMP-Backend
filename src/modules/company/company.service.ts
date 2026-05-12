@@ -20,15 +20,15 @@ export class CompanyService {
     return await this.companiesRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  async findOne(id: number) {
+    return await this.companiesRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateCompanyDto: UpdateCompanyDto) {
-    return `This action updates a #${id} company`;
+  async update(id: number, updateCompanyDto: UpdateCompanyDto) {
+    return await this.companiesRepository.update(id, updateCompanyDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+  async remove(id: number) {
+    return await this.companiesRepository.softDelete(id);
   }
 }
