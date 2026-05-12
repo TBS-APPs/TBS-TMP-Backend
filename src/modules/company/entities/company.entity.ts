@@ -29,7 +29,7 @@ export class Company {
   })
   alias: string;
 
-  @OneToOne(() => DynamicsSetting)
+  @OneToOne(() => DynamicsSetting, (dynamicsSetting) => dynamicsSetting.company)
   dynamicsSettings: DynamicsSetting;
 
   @Column({

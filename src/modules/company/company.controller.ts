@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { FindCompanyDetailDto } from './dto/find-company-detail.dto';
+import { errorResponse } from 'src/core/utils/transform/transform.interceptor';
 
 @Controller('company')
 export class CompanyController {
@@ -23,6 +26,27 @@ export class CompanyController {
   @Get()
   findAll() {
     return this.companyService.findAll();
+  }
+
+  @Get('detail')
+  findDetail(@Query() query: FindCompanyDetailDto) {
+    const { id, alias } = query;
+    const hasId = id !== undefined;
+    const hasAlias = alias !== undefined;
+
+    if (hasId === hasAlias) {
+      return errorResponse({ message: 'Provide exactly one of id or alias' });
+    }
+
+    if (hasId) {
+      return this.companyService.findOneWithDetails({ id });
+    }
+
+    if (alias === undefined) {
+      return errorResponse({ message: 'Provide exactly one of id or alias' });
+    }
+
+    return this.companyService.findOneWithDetails({ alias });
   }
 
   @Get(':id')
