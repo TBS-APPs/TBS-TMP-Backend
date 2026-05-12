@@ -4,6 +4,8 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Company } from './entities/company.entity';
+import { ApiResponse } from 'src/core/interfaces/api-response.interface';
+import { successResponse } from 'src/core/utils/transform/transform.interceptor';
 
 @Injectable()
 export class CompanyService {
@@ -16,8 +18,10 @@ export class CompanyService {
     return await this.companiesRepository.save(createCompanyDto);
   }
 
-  async findAll(): Promise<Company[]> {
-    return await this.companiesRepository.find();
+  async findAll(): Promise<ApiResponse<Company[] | null>> {
+    const companies: Company[] = await this.companiesRepository.find();
+    return successResponse({ data: companies });
+    // return await this.companiesRepository.find();
   }
 
   async findOne(id: number) {
