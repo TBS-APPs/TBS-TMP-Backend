@@ -16,4 +16,8 @@ export class CreateLicenseDto {
   @IsNotEmpty()
   @IsNumber()
   moduleId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  companyId: number;
 }
