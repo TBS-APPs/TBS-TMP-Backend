@@ -7,6 +7,8 @@ import { CompanyModule } from './modules/company/company.module';
 import { ModuleModule } from './modules/module/module.module';
 import { TransformInterceptor } from './core/utils/transform/transform.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -24,6 +26,15 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       autoLoadEntities: true,
       logger: 'advanced-console',
       logging: true,
+    }),
+    I18nModule.forRoot({
+      fallbackLanguage: 'en',
+      loaderOptions: {
+        path: join(__dirname, 'i18n'),
+        watch: true,
+        includeSubfolders: true,
+      },
+      resolvers: [AcceptLanguageResolver],
     }),
     CompanyModule,
     ModuleModule,

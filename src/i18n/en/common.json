@@ -1,0 +1,20 @@
+{
+  "success": "Success",
+  "failed": "Failed",
+  "loading": "Loading...",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "create": "Create",
+  "update": "Update",
+  "search": "Search",
+  "filter": "Filter",
+  "sort": "Sort",
+  "actions": "Actions",
+  "status": "Status",
+  "active": "Active",
+  "inactive": "Inactive",
+  "enabled": "Enabled",
+  "disabled": "Disabled"
+}

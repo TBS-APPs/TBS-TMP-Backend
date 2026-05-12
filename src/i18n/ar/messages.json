@@ -1,0 +1,170 @@
+{
+  "auth": {
+    "user_registered_successfully": "تم تسجيل المستخدم بنجاح",
+    "login_successfully": "تم تسجيل الدخول بنجاح!",
+    "email_already_in_use": "البريد الإلكتروني مستخدم بالفعل",
+    "phone_already_in_use": "رقم الهاتف مستخدم بالفعل",
+    "wrong_email_or_password": "البريد الإلكتروني أو كلمة المرور خاطئة!",
+    "missing_auth_configuration": "إعدادات المصادقة مفقودة!",
+    "email_not_found": "البريد الإلكتروني: {email} غير موجود!",
+    "logout_successfully": "تم تسجيل الخروج بنجاح",
+    "token_expired": "انتهت صلاحية الرمز المميز",
+    "invalid_token": "رمز مميز غير صحيح",
+    "access_denied": "تم رفض الوصول",
+    "account_locked": "الحساب مقفل",
+    "account_disabled": "الحساب معطل",
+    "user_registration_failed": "فشل في تسجيل المستخدم",
+    "authentication_failed": "فشل في المصادقة",
+    "please_verify_otp_sent": "يرجى التحقق من حسابك! تم إرسال رمز التحقق إلى بريدك الإلكتروني.",
+    "successfully_verified": "تم التحقق بنجاح",
+    "refresh_token_updated": "تم تحديث رمز التحقق",
+    "not_verified": "لم يتم التحقق",
+    "password_changed_successfully": "تم تغيير كلمة المرور بنجاح",
+    "same_as_old_password": "لا يمكن أن تكون كلمة المرور الجديدة مطابقة لكلمة المرور القديمة"
+  },
+  "user": {
+    "profile_updated": "تم تحديث الملف الشخصي بنجاح",
+    "password_changed": "تم تغيير كلمة المرور بنجاح",
+    "user_not_found": "المستخدم غير موجود",
+    "user_deleted": "تم حذف المستخدم بنجاح",
+    "user_already_approved": "تمت الموافقة على المستخدم بالفعل",
+    "update_failed": "فشل التحديث"
+  },
+  "session": {
+    "session_data_not_valid": "بيانات الجلسة غير صالحة",
+    "session_created": "تم إنشاء الجلسة بنجاح",
+    "session_not_found": "الجلسة غير موجودة",
+    "session_updated": "تم تحديث الجلسة بنجاح"
+  },
+  "store": {
+    "store_created": "تم إنشاء المتجر بنجاح",
+    "store_updated": "تم تحديث المتجر بنجاح",
+    "store_deleted": "تم حذف المتجر بنجاح",
+    "store_not_found": "المتجر غير موجود",
+    "store_already_exists": "لديك متجر بالفعل",
+    "store_slug_already_exists": "رابط المتجر مستخدم بالفعل",
+    "store_creation_failed": "فشل إنشاء المتجر",
+    "store_update_failed": "فشل تعديل المتجر",
+    "store_fetched_successfully": "تم جلب المتجر بنجاح",
+    "failed_to_fetch_store": "فشل في جلب المتجر",
+    "stores_fetched_successfully": "تم جلب المتاجر بنجاح",
+    "failed_to_fetch_stores": "فشل في جلب المتاجر",
+    "id_is_required": "معرف المتجر مطلوب",
+    "store_invalid": "المتجر لا ينتمي إلى المستخدم المصادق",
+    "store_deleted_successfully": "تم حذف المتجر بنجاح",
+    "store_deletion_failed": "فشل في حذف المتجر",
+    "vat_not_enabled": "ضريبة القيمة المضافة غير مفعلة لهذا المتجر",
+    "vat_registration_updated": "تم تحديث تسجيل ضريبة القيمة المضافة بنجاح",
+    "vat_registration_update_failed": "فشل في تحديث تسجيل ضريبة القيمة المضافة",
+    "vat_status_fetched": "تم جلب حالة ضريبة القيمة المضافة بنجاح",
+    "vat_status_fetch_failed": "فشل في جلب حالة ضريبة القيمة المضافة",
+    "subdomain_creation_failed": "فشل في إنشاء الدومين"
+  },
+  "email": {
+    "email_sent": "تم إرسال الايميل بنجاح"
+  },
+  "otp": {
+    "otp_not_found": "رمز التحقق غير موجود",
+    "otp_consumed": "رمز التحقق مستخدم",
+    "otp_expired": "رمز التحقق قد انتهى",
+    "wrong_otp": "رمز التحقق خاطئ",
+    "otp_sent_successfully": "تم إرسال رمز التحقق بنجاح"
+  },
+  "currency": {
+    "currencies_fetched_successfully": "تم جلب العملات بنجاح",
+    "failed_to_fetch_currencies": "فشل في جلب العملات"
+  },
+  "country": {
+    "countries_fetched_successfully": "تم جلب البلدان بنجاح",
+    "failed_to_fetch_countries": "فشل في جلب البلدان"
+  },
+  "store_category": {
+    "store_categories_fetched_successfully": "تم جلب فئات المتاجر بنجاح",
+    "failed_to_fetch_store_categories": "فشل في جلب فئات المتاجر"
+  },
+  "category": {
+    "category_not_found": "القسم غير موجود",
+    "parent_not_found": "أصل الفئة غير موجود",
+    "slug_exists": "المعرف الفريد (slug) موجود بالفعل",
+    "category_created_successfully": "تم إنشاء الفئة بنجاح",
+    "category_creation_failed": "فشل في إنشاء الفئة",
+    "max_depth": "يجب أن يكون العمق الأقصى بين 1 و 20",
+    "category_updated_successfully": "تم تعديل الفئة بنجاح",
+    "category_deleted_successfully": "تم حذف الفئة بنجاح",
+    "category_has_products": "الفئة لديها منتجات! لا يمكن حذفها",
+    "parent_should_be_different": "الفئة الأصل يجب أن تكون مختلفة عن الفئة الحالية"
+  },
+  "product": {
+    "slug_exists": "يوجد منتج بنفس الاسم المختصر",
+    "product_created_successfully": "تم إنشاء المنتج بنجاح",
+    "product_creation_failed": "فشل في إنشاء المنتج",
+    "invalid_price": "السعر غير صالح",
+    "invalid_sale_price": "يجب أن يكون سعر البيع أقل من السعر العادي",
+    "products_fetched_successfully": "تم جلب المنتجات بنجاح",
+    "product_not_found": "المنتج غير موجود",
+    "product_deleted_successfully": "تم حذف المنتج بنجاح",
+    "product_updated_successfully": "تم تعديل المنتج بنجاح"
+  },
+  "product_attribute": {
+    "created_successfully": "تم إنشاء صفة المنتج",
+    "creation_failed": "فشل في إنشاء صفة المنتج",
+    "missing_data": "معلومات الصفة ناقصة"
+  },
+  "product_attribute_type": {
+    "not_found": "نوع صفة المنتج غير موجود"
+  },
+  "about": {
+    "created_successfully": "تم إنشاء القسم بنجاح",
+    "creation_failed": "فشل إنشاء القسم",
+    "updated_successfully": "تم تحديث القسم بنجاح",
+    "update_failed": "فشل تحديث القسم",
+    "deleted_successfully": "تم حذف القسم بنجاح",
+    "deletion_failed": "فشل حذف القسم",
+    "retrieved_successfully": "تم استرجاع البيانات بنجاح",
+    "retrieval_failed": "فشل استرجاع البيانات",
+    "not_found": "القسم غير موجود",
+    "missing_data": "البيانات المطلوبة مفقودة"
+  },
+  "template": {
+    "not_found": "القالب غير موجود",
+    "update_failed": "فشل تحديث القالب",
+    "updated_successfully": "تم تحديث القالب بنجاح"
+  },
+  "brand": {
+    "brand_not_found": "العلامة التجارية غير موجودة",
+    "brand_created_successfully": "تم إنشاء العلامة التجارية بنجاح",
+    "brand_creation_failed": "فشل في إنشاء العلامة التجارية",
+    "brand_updated_successfully": "تم تعديل العلامة التجارية بنجاح",
+    "brand_update_failed": "فشل في تعديل العلامة التجارية",
+    "brand_deleted_successfully": "تم حذف العلامة التجارية بنجاح"
+  },
+  "product_variant": {
+    "product_variant_created_successfully": "تم إنشاء صنف المنتج بنجاح",
+    "product_variant_creation_failed": "فشل في إنشاء صنف المنتج",
+    "product_variants_fetched_successfully": "تم جلب أصناف المنتجات بنجاح",
+    "product_variant_not_found": "صنف المنتج غير موجود",
+    "product_variant_deleted_successfully": "تم حذف صنف المنتج بنجاح",
+    "product_variant_updated_successfully": "تم تعديل صنف المنتج بنجاح"
+  },
+
+  "product_display_info": {
+    "created_successfully": "تم إنشاء معلومات عرض المنتج بنجاح",
+    "creation_failed": "فشل في إنشاء معلومات عرض المنتج",
+    "updated_successfully": "تم تعديل معلومات عرض المنتج بنجاح",
+    "update_failed": "فشل في تعديل معلومات عرض المنتج",
+    "deleted_successfully": "تم حذف معلومات عرض المنتج بنجاح",
+    "deletion_failed": "فشل في حذف معلومات عرض المنتج",
+    "not_found": "معلومات عرض المنتج غير موجودة",
+    "missing_data": "بيانات معلومات عرض المنتج مفقودة"
+  },
+  "product_display_info_value": {
+    "created_successfully": "تم إنشاء قيمة معلومات عرض المنتج بنجاح",
+    "creation_failed": "فشل في إنشاء قيمة معلومات عرض المنتج",
+    "updated_successfully": "تم تعديل قيمة معلومات عرض المنتج بنجاح",
+    "update_failed": "فشل في تعديل قيمة معلومات عرض المنتج",
+    "deleted_successfully": "تم حذف قيمة معلومات عرض المنتج بنجاح",
+    "deletion_failed": "فشل في حذف قيمة معلومات عرض المنتج",
+    "not_found": "قيمة معلومات عرض المنتج غير موجودة",
+    "missing_data": "بيانات قيمة معلومات عرض المنتج مفقودة"
+  }
+}

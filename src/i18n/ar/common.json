@@ -1,0 +1,20 @@
+{
+  "success": "نجاح",
+  "failed": "فشل",
+  "loading": "جاري التحميل...",
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "delete": "حذف",
+  "edit": "تعديل",
+  "create": "إنشاء",
+  "update": "تحديث",
+  "search": "بحث",
+  "filter": "تصفية",
+  "sort": "ترتيب",
+  "actions": "الإجراءات",
+  "status": "الحالة",
+  "active": "نشط",
+  "inactive": "غير نشط",
+  "enabled": "مفعل",
+  "disabled": "معطل"
+}

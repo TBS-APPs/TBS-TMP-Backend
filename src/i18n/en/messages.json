@@ -1,0 +1,170 @@
+{
+  "auth": {
+    "user_registered_successfully": "User registered successfully",
+    "login_successfully": "Login successfully!",
+    "email_already_in_use": "Email already in use",
+    "phone_already_in_use": "Phone already in use",
+    "wrong_email_or_password": "Wrong Email or Password!",
+    "missing_auth_configuration": "Missing Auth Configuration!",
+    "email_not_found": "Email: {email} not found!",
+    "logout_successfully": "Logged out successfully",
+    "token_expired": "Token has expired",
+    "invalid_token": "Invalid token",
+    "access_denied": "Access denied",
+    "account_locked": "Account is locked",
+    "account_disabled": "Account is disabled",
+    "user_registration_failed": "Failed to register user",
+    "authentication_failed": "Authentication failed",
+    "please_verify_otp_sent": "Please verify your account! OTP sent to your email.",
+    "successfully_verified": "Successfully verified",
+    "refresh_token_updated": "Refresh token updated",
+    "not_verified": "Not Verified!",
+    "password_changed_successfully": "Password changed successfully",
+    "same_as_old_password": "New password cannot be the same as the old password"
+  },
+  "user": {
+    "profile_updated": "Profile updated successfully",
+    "password_changed": "Password changed successfully",
+    "user_not_found": "User not found",
+    "user_deleted": "User deleted successfully",
+    "user_already_approved": "User Already Approved",
+    "update_failed": "User update failed"
+  },
+  "session": {
+    "session_data_not_valid": "Session data not valid",
+    "session_created": "Session created successfully",
+    "session_not_found": "Session not found",
+    "session_updated": "Session updated successfully"
+  },
+  "store": {
+    "store_created": "Store created successfully",
+    "store_updated": "Store updated successfully",
+    "store_deleted": "Store deleted successfully",
+    "store_not_found": "Store not found",
+    "store_already_exists": "You already have a store",
+    "store_slug_already_exists": "Store slug already exists",
+    "store_creation_failed": "Store creation failed",
+    "store_update_failed": "Store update failed",
+    "store_fetched_successfully": "Store fetched successfully",
+    "failed_to_fetch_store": "Failed to fetch store",
+    "stores_fetched_successfully": "Stores fetched successfully",
+    "failed_to_fetch_stores": "Failed to fetch stores",
+    "id_is_required": "Store ID is required",
+    "store_invalid": "Store does not belong to the authenticated user",
+    "store_deleted_successfully": "Store deleted successfully",
+    "store_deletion_failed": "Failed to delete store",
+    "vat_not_enabled": "VAT is not enabled for this store",
+    "vat_registration_updated": "VAT registration updated successfully",
+    "vat_registration_update_failed": "Failed to update VAT registration",
+    "vat_status_fetched": "VAT status fetched successfully",
+    "vat_status_fetch_failed": "Failed to fetch VAT status",
+    "subdomain_creation_failed": "Failed to create subdomain"
+  },
+  "email": {
+    "email_sent": "Email sent successfully"
+  },
+  "otp": {
+    "otp_not_found": "OTP not found",
+    "otp_consumed": "OTP consumed",
+    "otp_expired": "OTP expired",
+    "wrong_otp": "Wrong OTP",
+    "otp_sent_successfully": "OTP sent successfully"
+  },
+  "currency": {
+    "currencies_fetched_successfully": "Currencies fetched successfully",
+    "failed_to_fetch_currencies": "Failed to fetch currencies"
+  },
+  "country": {
+    "countries_fetched_successfully": "Countries fetched successfully",
+    "failed_to_fetch_countries": "Failed to fetch countries"
+  },
+  "store_category": {
+    "store_categories_fetched_successfully": "Store categories fetched successfully",
+    "failed_to_fetch_store_categories": "Failed to fetch store categories"
+  },
+  "category": {
+    "category_not_found": "Category not found",
+    "parent_not_found": "Parent category not found",
+    "slug_exists": "Slug already exists",
+    "category_created_successfully": "Category created successfully",
+    "category_creation_failed": "Failed to create category",
+    "max_depth": "Max depth must be between 1 and 20",
+    "category_updated_successfully": "Category updated successfully",
+    "category_deleted_successfully": "Category deleted successfully",
+    "category_has_products": "The category has products! They cannot be deleted.",
+    "parent_should_be_different": "The parent category must be different from the current category"
+  },
+  "product": {
+    "slug_exists": "Product with this slug already exists",
+    "product_created_successfully": "Product created successfully",
+    "product_creation_failed": "Failed to create product",
+    "invalid_price": "Invalid price",
+    "invalid_sale_price": "Sale price must be less than regular price",
+    "products_fetched_successfully": "Products fetched successfully",
+    "product_not_found": "Product not found",
+    "product_deleted_successfully": "Product deleted successfully",
+    "product_updated_successfully": "Product updated successfully"
+  },
+  "product_attribute": {
+    "created_successfully": "Attribute created successfully",
+    "creation_failed": "Attribute creation failed",
+    "missing_data": "Missing attribute data"
+  },
+  "product_attribute_type": {
+    "not_found": "Product attribute type not found"
+  },
+  "about": {
+    "created_successfully": "About section created successfully",
+    "creation_failed": "Failed to create about section",
+    "updated_successfully": "About section updated successfully",
+    "update_failed": "Failed to update about section",
+    "deleted_successfully": "About section deleted successfully",
+    "deletion_failed": "Failed to delete about section",
+    "retrieved_successfully": "Data retrieved successfully",
+    "retrieval_failed": "Failed to retrieve data",
+    "not_found": "About section not found",
+    "missing_data": "Required data is missing"
+  },
+  "template": {
+    "not_found": "Template not found",
+    "update_failed": "Failed to update template",
+    "updated_successfully": "Template updated successfully"
+  },
+  "brand": {
+    "brand_not_found": "Brand not found",
+    "brand_created_successfully": "Brand created successfully",
+    "brand_creation_failed": "Failed to create brand",
+    "brand_updated_successfully": "Brand updated successfully",
+    "brand_update_failed": "Failed to update brand",
+    "brand_deleted_successfully": "Brand deleted successfully"
+  },
+  "product_variant": {
+    "product_variant_created_successfully": "Product variant created successfully",
+    "product_variant_creation_failed": "Failed to create product variant",
+    "product_variants_fetched_successfully": "Product variants fetched successfully",
+    "product_variant_not_found": "Product variant not found",
+    "product_variant_deleted_successfully": "Product variant deleted successfully",
+    "product_variant_updated_successfully": "Product variant updated successfully"
+  },
+
+  "product_display_info": {
+    "created_successfully": "Product display info created successfully",
+    "creation_failed": "Failed to create product display info",
+    "updated_successfully": "Product display info updated successfully",
+    "update_failed": "Failed to update product display info",
+    "deleted_successfully": "Product display info deleted successfully",
+    "deletion_failed": "Failed to delete product display info",
+    "not_found": "Product display info not found",
+    "missing_data": "Missing product display info data"
+  },
+  "product_display_info_value": {
+    "created_successfully": "Product display info value created successfully",
+    "creation_failed": "Failed to create product display info value",
+    "updated_successfully": "Product display info value updated successfully",
+    "update_failed": "Failed to update product display info value",
+    "deleted_successfully": "Product display info value deleted successfully",
+    "deletion_failed": "Failed to delete product display info value",
+    "not_found": "Product display info value not found",
+    "missing_data": "Missing product display info value data"
+  }
+}
