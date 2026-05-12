@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateLicenseDto {
   @IsNotEmpty()
@@ -6,14 +6,18 @@ export class CreateLicenseDto {
   seatsLimit: number;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   startDate: Date;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   expirationDate: Date;
 
   @IsNotEmpty()
   @IsNumber()
   moduleId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  companyId: number;
 }

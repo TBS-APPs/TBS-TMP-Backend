@@ -1,26 +1,88 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDynamicsSettingDto } from './dto/create-dynamics-setting.dto';
 import { UpdateDynamicsSettingDto } from './dto/update-dynamics-setting.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import DynamicsSetting from './entities/dynamics-setting.entity';
+import { ApiResponse } from 'src/core/interfaces/api-response.interface';
+import {
+  errorResponse,
+  successResponse,
+} from 'src/core/utils/transform/transform.interceptor';
 
 @Injectable()
 export class DynamicsSettingsService {
-  create(createDynamicsSettingDto: CreateDynamicsSettingDto) {
-    return 'This action adds a new dynamicsSetting';
+  constructor(
+    @InjectRepository(DynamicsSetting)
+    private dynamicsSettingsRepository: Repository<DynamicsSetting>,
+  ) {}
+
+  async create(createDynamicsSettingDto: CreateDynamicsSettingDto) {
+    try {
+      const { companyId, ...fields } = createDynamicsSettingDto;
+      const dynamicsSetting = await this.dynamicsSettingsRepository.save({
+        ...fields,
+        company: { id: companyId },
+      });
+      return successResponse({ data: dynamicsSetting });
+    } catch {
+      return errorResponse();
+    }
   }
 
-  findAll() {
-    return `This action returns all dynamicsSettings`;
+  async findAll(): Promise<ApiResponse<DynamicsSetting[] | null>> {
+    try {
+      const dynamicsSettings: DynamicsSetting[] =
+        await this.dynamicsSettingsRepository.find();
+      return successResponse({ data: dynamicsSettings });
+    } catch {
+      return errorResponse();
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dynamicsSetting`;
+  async findOne(id: number) {
+    try {
+      const dynamicsSetting = await this.dynamicsSettingsRepository.findOne({
+        where: { id },
+      });
+      return successResponse({ data: dynamicsSetting });
+    } catch {
+      return errorResponse();
+    }
   }
 
-  update(id: number, updateDynamicsSettingDto: UpdateDynamicsSettingDto) {
-    return `This action updates a #${id} dynamicsSetting`;
+  async findByCompanyId(companyId: number) {
+    try {
+      const dynamicsSetting = await this.dynamicsSettingsRepository.findOne({
+        where: { company: { id: companyId } },
+      });
+      return successResponse({ data: dynamicsSetting });
+    } catch {
+      return errorResponse();
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dynamicsSetting`;
+  async update(id: number, updateDynamicsSettingDto: UpdateDynamicsSettingDto) {
+    try {
+      const { companyId, ...rest } = updateDynamicsSettingDto;
+      const payload =
+        companyId !== undefined ? { ...rest, companyId } : { ...rest };
+      const dynamicsSetting = await this.dynamicsSettingsRepository.update(
+        id,
+        payload,
+      );
+      return successResponse({ data: dynamicsSetting });
+    } catch {
+      return errorResponse();
+    }
+  }
+
+  async remove(id: number) {
+    try {
+      await this.dynamicsSettingsRepository.softDelete(id);
+      return successResponse();
+    } catch {
+      return errorResponse();
+    }
   }
 }

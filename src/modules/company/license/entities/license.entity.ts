@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import Module from 'src/modules/module/entities/module.entity';
 import { Company } from '../../entities/company.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class License {
@@ -38,12 +39,15 @@ export class License {
   @ManyToOne(() => Company, (company) => company.licenses)
   company: Company;
 
+  @Exclude()
   @CreateDateColumn()
   createdAt: Date;
 
+  @Exclude()
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Exclude()
   @DeleteDateColumn()
   deletedAt: Date;
 }

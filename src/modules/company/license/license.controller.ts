@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { LicenseService } from './license.service';
 import { CreateLicenseDto } from './dto/create-license.dto';
 import { UpdateLicenseDto } from './dto/update-license.dto';

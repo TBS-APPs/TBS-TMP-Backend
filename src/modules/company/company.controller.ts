@@ -6,14 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
+import { I18nService } from 'nestjs-i18n';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { FindCompanyDetailDto } from './dto/find-company-detail.dto';
+import { errorResponse } from 'src/core/utils/transform/transform.interceptor';
+import { ERROR_KEYS } from 'src/core/constants/translations.constants';
 
 @Controller('company')
 export class CompanyController {
-  constructor(private readonly companyService: CompanyService) {}
+  constructor(
+    private readonly companyService: CompanyService,
+    private readonly i18n: I18nService,
+  ) {}
 
   @Post()
   create(@Body() createCompanyDto: CreateCompanyDto) {
@@ -23,6 +31,25 @@ export class CompanyController {
   @Get()
   findAll() {
     return this.companyService.findAll();
+  }
+
+  @Get('detail')
+  findDetail(@Query() query: FindCompanyDetailDto) {
+    const { id, alias } = query;
+    const hasId = id !== undefined;
+    const hasAlias = alias !== undefined;
+
+    if (hasId === hasAlias) {
+      return errorResponse({
+        message: this.i18n.t(ERROR_KEYS.PROVIDE_EXACTLY_ONE_OF_ID_OR_ALIAS),
+      });
+    }
+
+    if (hasId && id !== undefined) {
+      return this.companyService.findOneWithDetails({ id });
+    }
+
+    return this.companyService.findOneWithDetails({ alias: alias as string });
   }
 
   @Get(':id')

@@ -5,7 +5,11 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
   DeleteDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Company } from '../../entities/company.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export default class DynamicsSetting {
@@ -42,12 +46,19 @@ export default class DynamicsSetting {
   })
   resource: string;
 
+  @OneToOne(() => Company)
+  @JoinColumn()
+  company: Company;
+
+  @Exclude()
   @CreateDateColumn()
   createdAt: Date;
 
+  @Exclude()
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Exclude()
   @DeleteDateColumn()
   deletedAt: Date;
 }

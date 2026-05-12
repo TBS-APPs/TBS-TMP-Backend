@@ -1,11 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { DynamicsSettingsService } from './dynamics-settings.service';
 import { CreateDynamicsSettingDto } from './dto/create-dynamics-setting.dto';
 import { UpdateDynamicsSettingDto } from './dto/update-dynamics-setting.dto';
 
 @Controller('dynamics-settings')
 export class DynamicsSettingsController {
-  constructor(private readonly dynamicsSettingsService: DynamicsSettingsService) {}
+  constructor(
+    private readonly dynamicsSettingsService: DynamicsSettingsService,
+  ) {}
 
   @Post()
   create(@Body() createDynamicsSettingDto: CreateDynamicsSettingDto) {
@@ -17,13 +28,21 @@ export class DynamicsSettingsController {
     return this.dynamicsSettingsService.findAll();
   }
 
+  @Get('company/:companyId')
+  findByCompanyId(@Param('companyId', ParseIntPipe) companyId: number) {
+    return this.dynamicsSettingsService.findByCompanyId(companyId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.dynamicsSettingsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDynamicsSettingDto: UpdateDynamicsSettingDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateDynamicsSettingDto: UpdateDynamicsSettingDto,
+  ) {
     return this.dynamicsSettingsService.update(+id, updateDynamicsSettingDto);
   }
 

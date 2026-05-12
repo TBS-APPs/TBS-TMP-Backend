@@ -1,0 +1,4 @@
+{
+  "internal_server_error": "Internal server error",
+  "provide_exactly_one_of_id_or_alias": "Provide exactly one of id or alias"
+}
