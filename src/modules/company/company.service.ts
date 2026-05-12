@@ -5,7 +5,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Company } from './entities/company.entity';
 import { ApiResponse } from 'src/core/interfaces/api-response.interface';
-import { successResponse } from 'src/core/utils/transform/transform.interceptor';
+import {
+  errorResponse,
+  successResponse,
+} from 'src/core/utils/transform/transform.interceptor';
 
 @Injectable()
 export class CompanyService {
@@ -15,24 +18,53 @@ export class CompanyService {
   ) {}
 
   async create(createCompanyDto: CreateCompanyDto) {
-    return await this.companiesRepository.save(createCompanyDto);
+    try {
+      const company: Company =
+        await this.companiesRepository.save(createCompanyDto);
+      return successResponse({ data: company });
+    } catch {
+      return errorResponse();
+    }
   }
 
   async findAll(): Promise<ApiResponse<Company[] | null>> {
-    const companies: Company[] = await this.companiesRepository.find();
-    return successResponse({ data: companies });
-    // return await this.companiesRepository.find();
+    try {
+      const companies: Company[] = await this.companiesRepository.find();
+      return successResponse({ data: companies });
+    } catch {
+      return errorResponse();
+    }
   }
 
   async findOne(id: number) {
-    return await this.companiesRepository.findOne({ where: { id } });
+    try {
+      const company = await this.companiesRepository.findOne({
+        where: { id },
+      });
+      return successResponse({ data: company });
+    } catch {
+      return errorResponse();
+    }
   }
 
   async update(id: number, updateCompanyDto: UpdateCompanyDto) {
-    return await this.companiesRepository.update(id, updateCompanyDto);
+    try {
+      const company = await this.companiesRepository.update(
+        id,
+        updateCompanyDto,
+      );
+      return successResponse({ data: company });
+    } catch {
+      return errorResponse();
+    }
   }
 
   async remove(id: number) {
-    return await this.companiesRepository.softDelete(id);
+    try {
+      await this.companiesRepository.softDelete(id);
+      return successResponse();
+    } catch {
+      return errorResponse();
+    }
   }
 }
