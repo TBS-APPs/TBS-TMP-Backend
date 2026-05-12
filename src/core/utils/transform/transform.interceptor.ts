@@ -7,10 +7,10 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-// import { I18nContext } from 'nestjs-i18n';
+import { I18nContext } from 'nestjs-i18n';
 import { ApiResponse } from 'src/core/interfaces/api-response.interface';
 import { ApiResponseStatus } from 'src/core/enums/api-response-status.enum';
-// import { COMMON_KEYS } from 'src/core/constants/translations.constants';
+import { COMMON_KEYS } from 'src/core/constants/translations.constants';
 import { Response } from 'express';
 
 export function successResponse<T = null>(args?: {
@@ -19,11 +19,11 @@ export function successResponse<T = null>(args?: {
   httpCode?: number;
 }): ApiResponse<T | null> {
   const { data = null, message, httpCode = HttpStatus.OK } = args ?? {};
-  // const i18n = I18nContext.current();
+  const i18n = I18nContext.current();
   return {
     status: ApiResponseStatus.SUCCESS,
-    // message: message ?? i18n?.t(COMMON_KEYS.SUCCESS) ?? 'Success',
-    message: 'Success',
+    message: message ?? i18n?.t(COMMON_KEYS.SUCCESS) ?? 'Success',
+    // message: 'Success',
     data,
     httpCode,
   };
@@ -39,12 +39,11 @@ export function errorResponse<T = null>(args?: {
     data = null,
     httpCode = HttpStatus.BAD_REQUEST,
   } = args ?? {};
-  // const i18n = I18nContext.current();
+  const i18n = I18nContext.current();
 
   const result = {
     status: ApiResponseStatus.FAILED,
-    // message: message ?? i18n?.t(COMMON_KEYS.FAILED) ?? 'Failed',
-    message: 'Failed',
+    message: message ?? i18n?.t(COMMON_KEYS.FAILED) ?? 'Failed',
     data,
     httpCode,
   };
