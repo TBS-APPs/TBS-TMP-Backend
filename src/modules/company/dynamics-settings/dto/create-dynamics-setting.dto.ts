@@ -18,4 +18,7 @@ export class CreateDynamicsSettingDto {
 
   @IsNotEmpty()
   resource: string;
+
+  @IsNotEmpty()
+  companyId: number;
 }

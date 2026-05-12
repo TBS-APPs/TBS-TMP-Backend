@@ -3,7 +3,6 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
@@ -31,7 +30,6 @@ export class Company {
   alias: string;
 
   @OneToOne(() => DynamicsSetting)
-  @JoinColumn()
   dynamicsSettings: DynamicsSetting;
 
   @Column({
