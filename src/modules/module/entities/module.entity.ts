@@ -1,5 +1,14 @@
+import { Exclude } from 'class-transformer';
 import { License } from 'src/modules/company/license/entities/license.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export default class Module {
@@ -14,4 +23,16 @@ export default class Module {
 
   @OneToMany(() => License, (license) => license.module)
   licenses: License[];
+
+  @Exclude()
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @Exclude()
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @Exclude()
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
