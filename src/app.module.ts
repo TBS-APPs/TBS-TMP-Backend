@@ -9,6 +9,8 @@ import { TransformInterceptor } from './core/utils/transform/transform.intercept
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import { join } from 'path';
+import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { join } from 'path';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      synchronize: process.env.NODE_ENV === 'development' ? true : false,
+      synchronize: process.env.SYNC_DATABASE === 'true' ? true : false,
       autoLoadEntities: true,
       logger: 'advanced-console',
       logging: true,
@@ -38,6 +40,8 @@ import { join } from 'path';
     }),
     CompanyModule,
     ModuleModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
