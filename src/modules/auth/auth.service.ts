@@ -10,59 +10,79 @@ import { ERROR_KEYS } from 'src/core/constants/translations.constants';
 import { I18nContext } from 'nestjs-i18n';
 import { EncryptionService } from 'src/core/services/encryption/encryption.service';
 import { ApiResponseStatus } from 'src/core/enums/api-response-status.enum';
+import { UserStatus } from '../user/user-status.enum';
+import { ApiResponse } from 'src/core/interfaces/api-response.interface';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private readonly i18n: I18nContext,
     private readonly encryptionService: EncryptionService,
   ) {}
 
-  async login(loginDto: LoginDto) {
-    try {
-      const userResponse = await this.userService.findOne({
-        email: loginDto.email,
+  async login(loginDto: LoginDto): Promise<ApiResponse<User | null>> {
+    const i18n = I18nContext.current();
+    const lookup = await this.userService.findOne({ email: loginDto.email });
+
+    if (lookup.status !== ApiResponseStatus.SUCCESS || !lookup.data) {
+      return errorResponse({
+        httpCode: HttpStatus.UNAUTHORIZED,
+        message: i18n?.t(ERROR_KEYS.INVALID_CREDENTIALS),
       });
-      if (userResponse.status === ApiResponseStatus.FAILED) {
-        return userResponse;
-      }
-
-      const user = userResponse.data;
-      if (!user) {
-        return errorResponse({
-          message: this.i18n.t(ERROR_KEYS.USER_NOT_FOUND),
-          httpCode: HttpStatus.NOT_FOUND,
-        });
-      }
-
-      const passwordMatch = await this.encryptionService.compare(
-        loginDto.password,
-        user.password,
-      );
-
-      if (!passwordMatch) {
-        return errorResponse({
-          message: this.i18n.t(ERROR_KEYS.INVALID_CREDENTIALS),
-          httpCode: HttpStatus.UNAUTHORIZED,
-        });
-      }
-
-      return successResponse({ data: user });
-    } catch {
-      return errorResponse();
     }
+
+    const user = lookup.data;
+
+    if (
+      user.status === UserStatus.BLOCKED ||
+      user.status === UserStatus.INACTIVE
+    ) {
+      return errorResponse({
+        httpCode: HttpStatus.UNAUTHORIZED,
+        message: i18n?.t(ERROR_KEYS.INVALID_CREDENTIALS),
+      });
+    }
+
+    const passwordMatches = await this.encryptionService.compare(
+      loginDto.password,
+      user.password,
+    );
+
+    if (!passwordMatches) {
+      return errorResponse({
+        httpCode: HttpStatus.UNAUTHORIZED,
+        message: i18n?.t(ERROR_KEYS.INVALID_CREDENTIALS),
+      });
+    }
+
+    return successResponse({ data: user });
   }
 
-  async register(registerDto: RegisterDto) {
-    try {
-      const userResponse = await this.userService.create(registerDto);
-      if (userResponse.status === ApiResponseStatus.FAILED) {
-        return userResponse;
-      }
-      return successResponse({ data: userResponse.data });
-    } catch {
-      return errorResponse();
+  async register(registerDto: RegisterDto): Promise<ApiResponse<User | null>> {
+    const i18n = I18nContext.current();
+
+    const existing = await this.userService.findOne({
+      email: registerDto.email,
+    });
+
+    if (existing.status === ApiResponseStatus.SUCCESS && existing.data) {
+      return errorResponse({
+        httpCode: HttpStatus.CONFLICT,
+        message: i18n?.t(ERROR_KEYS.EMAIL_ALREADY_REGISTERED),
+      });
     }
+
+    const hashedPassword = await this.encryptionService.encrypt(
+      registerDto.password,
+    );
+
+    return this.userService.create({
+      email: registerDto.email,
+      name: registerDto.name,
+      password: hashedPassword,
+      /// TODO: Change to pending later
+      status: UserStatus.ACTIVE,
+    });
   }
 }
