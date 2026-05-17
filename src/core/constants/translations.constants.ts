@@ -17,4 +17,6 @@ export const COMMON_KEYS = createTranslationKeys('common', {
 export const ERROR_KEYS = createTranslationKeys('error', {
   INTERNAL_SERVER_ERROR: 'internal_server_error',
   PROVIDE_EXACTLY_ONE_OF_ID_OR_ALIAS: 'provide_exactly_one_of_id_or_alias',
+  USER_NOT_FOUND: 'user_not_found',
+  INVALID_CREDENTIALS: 'invalid_credentials',
 });
