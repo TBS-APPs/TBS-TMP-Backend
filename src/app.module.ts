@@ -11,8 +11,6 @@ import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { EncryptionService } from './encryption/encryption.service';
-import { EncryptionService } from './core/services/encryption/encryption.service';
 
 @Module({
   imports: [
@@ -52,7 +50,6 @@ import { EncryptionService } from './core/services/encryption/encryption.service
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
     },
-    EncryptionService,
   ],
 })
 export class AppModule {}

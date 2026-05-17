@@ -1,4 +1,12 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
+import { UserStatus } from '../user-status.enum';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -14,4 +22,8 @@ export class CreateUserDto {
   @IsString()
   @MinLength(3)
   name: string;
+
+  @IsOptional()
+  @IsEnum(UserStatus)
+  status?: UserStatus;
 }

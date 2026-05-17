@@ -1,6 +1,8 @@
 {
   "internal_server_error": "Internal server error",
   "provide_exactly_one_of_id_or_alias": "Provide exactly one of id or alias",
+  "provide_email_or_id": "Provide exactly one of email or id",
   "user_not_found": "User not found",
-  "invalid_credentials": "Invalid credentials"
+  "invalid_credentials": "Invalid credentials",
+  "email_already_registered": "This email is already registered"
 }

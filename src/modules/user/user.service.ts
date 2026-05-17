@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { ApiResponse } from 'src/core/interfaces/api-response.interface';
 import {
@@ -16,65 +16,60 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    private i18n: I18nContext,
   ) {}
+
   async create(
     createUserDto: CreateUserDto,
   ): Promise<ApiResponse<User | null>> {
     try {
-      const user = await this.usersRepository.save(createUserDto);
-      return successResponse({ data: user });
+      const user = this.usersRepository.create(createUserDto);
+      const saved = await this.usersRepository.save(user);
+      return successResponse({ data: saved, httpCode: HttpStatus.CREATED });
     } catch {
-      return errorResponse();
+      const i18n = I18nContext.current();
+      return errorResponse({
+        httpCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: i18n?.t(ERROR_KEYS.INTERNAL_SERVER_ERROR),
+      });
     }
   }
-
-  // findAll() {
-  //   return `This action returns all user`;
-  // }
 
   async findOne({
     id,
     email,
-    encryptedPassword,
   }: {
     id?: number;
     email?: string;
-    encryptedPassword?: string;
   }): Promise<ApiResponse<User | null>> {
-    try {
-      const where: FindOptionsWhere<User> = {};
-      if (id) {
-        where.id = id;
-      }
-      if (email) {
-        where.email = email;
-      }
-      if (encryptedPassword) {
-        // const encryptedPassword =
-        //   await this.encryptionService.encrypt(password);
-        where.password = encryptedPassword;
-      }
-      const user = await this.usersRepository.findOne({
-        where,
+    const i18n = I18nContext.current();
+    const hasId = id !== undefined && id !== null;
+    const hasEmail = typeof email === 'string' && email.trim().length > 0;
+
+    if ((hasId && hasEmail) || (!hasId && !hasEmail)) {
+      return errorResponse({
+        httpCode: HttpStatus.BAD_REQUEST,
+        message: i18n?.t(ERROR_KEYS.PROVIDE_EMAIL_OR_ID),
       });
+    }
+
+    try {
+      const user = await this.usersRepository.findOne({
+        where: hasId ? { id } : { email: email!.trim() },
+      });
+
       if (!user) {
         return errorResponse({
-          message: this.i18n.t(ERROR_KEYS.USER_NOT_FOUND),
           httpCode: HttpStatus.NOT_FOUND,
+          message: i18n?.t(ERROR_KEYS.USER_NOT_FOUND),
         });
       }
+
       return successResponse({ data: user });
     } catch {
-      return errorResponse();
+      return errorResponse({
+        httpCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: i18n?.t(ERROR_KEYS.INTERNAL_SERVER_ERROR),
+      });
     }
   }
-
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
 }
