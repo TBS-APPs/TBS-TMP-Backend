@@ -24,7 +24,7 @@ import { AuthModule } from './modules/auth/auth.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      synchronize: process.env.NODE_ENV === 'development' ? true : false,
+      synchronize: process.env.SYNC_DATABASE === 'true' ? true : false,
       autoLoadEntities: true,
       logger: 'advanced-console',
       logging: true,

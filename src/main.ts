@@ -27,6 +27,15 @@ async function bootstrap() {
     .setDescription('TBS TMP API description')
     .setVersion('1.0')
     .addTag('TBS TMP')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'JWT access token from login or register',
+      },
+      'JWT-auth',
+    )
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, documentFactory, {
