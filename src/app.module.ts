@@ -9,6 +9,10 @@ import { TransformInterceptor } from './core/utils/transform/transform.intercept
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import { join } from 'path';
+import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { EncryptionService } from './encryption/encryption.service';
+import { EncryptionService } from './core/services/encryption/encryption.service';
 
 @Module({
   imports: [
@@ -38,6 +42,8 @@ import { join } from 'path';
     }),
     CompanyModule,
     ModuleModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
@@ -46,6 +52,7 @@ import { join } from 'path';
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
     },
+    EncryptionService,
   ],
 })
 export class AppModule {}
