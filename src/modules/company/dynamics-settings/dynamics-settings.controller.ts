@@ -11,6 +11,7 @@ import {
 import { DynamicsSettingsService } from './dynamics-settings.service';
 import { CreateDynamicsSettingDto } from './dto/create-dynamics-setting.dto';
 import { UpdateDynamicsSettingDto } from './dto/update-dynamics-setting.dto';
+import { UpsertDynamicsSettingDto } from './dto/upsert-dynamics-setting.dto';
 
 @Controller('dynamics-settings')
 export class DynamicsSettingsController {
@@ -26,6 +27,17 @@ export class DynamicsSettingsController {
   @Get()
   findAll() {
     return this.dynamicsSettingsService.findAll();
+  }
+
+  @Post('company/:companyId')
+  upsertByCompanyId(
+    @Param('companyId', ParseIntPipe) companyId: number,
+    @Body() upsertDynamicsSettingDto: UpsertDynamicsSettingDto,
+  ) {
+    return this.dynamicsSettingsService.upsertByCompanyId(
+      companyId,
+      upsertDynamicsSettingDto,
+    );
   }
 
   @Get('company/:companyId')

@@ -33,7 +33,7 @@ export class CompanyController {
     return this.companyService.findAll();
   }
 
-  @Get('detail')
+  @Get('details')
   findDetail(@Query() query: FindCompanyDetailDto) {
     const { id, alias } = query;
     const hasId = id !== undefined;

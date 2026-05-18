@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDynamicsSettingDto } from './dto/create-dynamics-setting.dto';
 import { UpdateDynamicsSettingDto } from './dto/update-dynamics-setting.dto';
+import { UpsertDynamicsSettingDto } from './dto/upsert-dynamics-setting.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import DynamicsSetting from './entities/dynamics-setting.entity';
@@ -56,6 +57,27 @@ export class DynamicsSettingsService {
       const dynamicsSetting = await this.dynamicsSettingsRepository.findOne({
         where: { company: { id: companyId } },
       });
+      return successResponse({ data: dynamicsSetting });
+    } catch {
+      return errorResponse();
+    }
+  }
+
+  async upsertByCompanyId(
+    companyId: number,
+    upsertDynamicsSettingDto: UpsertDynamicsSettingDto,
+  ) {
+    try {
+      const existing = await this.dynamicsSettingsRepository.findOne({
+        where: { company: { id: companyId } },
+      });
+
+      const dynamicsSetting = await this.dynamicsSettingsRepository.save({
+        ...upsertDynamicsSettingDto,
+        ...(existing ? { id: existing.id } : {}),
+        company: { id: companyId },
+      });
+
       return successResponse({ data: dynamicsSetting });
     } catch {
       return errorResponse();
