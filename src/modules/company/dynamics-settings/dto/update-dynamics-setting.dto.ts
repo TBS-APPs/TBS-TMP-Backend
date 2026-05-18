@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from '@nestjs/swagger';
 import { CreateDynamicsSettingDto } from './create-dynamics-setting.dto';
 
 export class UpdateDynamicsSettingDto extends PartialType(
