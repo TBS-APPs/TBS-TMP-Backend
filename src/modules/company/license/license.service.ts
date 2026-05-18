@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLicenseDto } from './dto/create-license.dto';
+import { CreateLicenseByCompanyDto } from './dto/create-license-by-company.dto';
 import { UpdateLicenseDto } from './dto/update-license.dto';
+import { UpdateLicenseByCompanyDto } from './dto/update-license-by-company.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { License } from './entities/license.entity';
@@ -49,6 +51,83 @@ export class LicenseService {
         where: { id },
       });
       return successResponse({ data: license });
+    } catch {
+      return errorResponse();
+    }
+  }
+
+  private findLicenseForCompany(companyId: number, licenseId: number) {
+    return this.licensesRepository.findOne({
+      where: { id: licenseId, company: { id: companyId } },
+      relations: ['module'],
+    });
+  }
+
+  async findByCompanyId(companyId: number) {
+    try {
+      const licenses = await this.licensesRepository.find({
+        where: { company: { id: companyId } },
+        relations: ['module'],
+      });
+      return successResponse({ data: licenses });
+    } catch {
+      return errorResponse();
+    }
+  }
+
+  async createByCompanyId(
+    companyId: number,
+    createLicenseByCompanyDto: CreateLicenseByCompanyDto,
+  ) {
+    try {
+      const { moduleId, seatsLimit, startDate, expirationDate } =
+        createLicenseByCompanyDto;
+      const license = await this.licensesRepository.save({
+        seatsLimit,
+        startDate,
+        expirationDate,
+        module: { id: moduleId },
+        company: { id: companyId },
+      });
+      return successResponse({ data: license });
+    } catch {
+      return errorResponse();
+    }
+  }
+
+  async updateByCompanyId(
+    companyId: number,
+    licenseId: number,
+    updateLicenseByCompanyDto: UpdateLicenseByCompanyDto,
+  ) {
+    try {
+      const existing = await this.findLicenseForCompany(companyId, licenseId);
+      if (!existing) {
+        return errorResponse();
+      }
+
+      const { moduleId, ...rest } = updateLicenseByCompanyDto;
+      const license = await this.licensesRepository.save({
+        id: existing.id,
+        ...rest,
+        ...(moduleId !== undefined ? { module: { id: moduleId } } : {}),
+        company: { id: companyId },
+      });
+      return successResponse({ data: license });
+    } catch {
+      return errorResponse();
+    }
+  }
+
+  async removeByCompanyId(companyId: number, licenseId: number) {
+    try {
+      const existing = await this.findLicenseForCompany(companyId, licenseId);
+      if (!existing) {
+        return errorResponse();
+      }
+
+      await this.licensesRepository.softDelete(licenseId);
+      return successResponse();
     } catch {
       return errorResponse();
     }
