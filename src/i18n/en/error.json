@@ -4,5 +4,7 @@
   "provide_email_or_id": "Provide exactly one of email or id",
   "user_not_found": "User not found",
   "invalid_credentials": "Invalid credentials",
-  "email_already_registered": "This email is already registered"
+  "email_already_registered": "This email is already registered",
+  "mobile_app_setting_not_found": "Mobile app setting not found",
+  "platform_already_exists": "A setting for this platform already exists"
 }

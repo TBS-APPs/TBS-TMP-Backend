@@ -21,4 +21,6 @@ export const ERROR_KEYS = createTranslationKeys('error', {
   USER_NOT_FOUND: 'user_not_found',
   INVALID_CREDENTIALS: 'invalid_credentials',
   EMAIL_ALREADY_REGISTERED: 'email_already_registered',
+  MOBILE_APP_SETTING_NOT_FOUND: 'mobile_app_setting_not_found',
+  PLATFORM_ALREADY_EXISTS: 'platform_already_exists',
 });

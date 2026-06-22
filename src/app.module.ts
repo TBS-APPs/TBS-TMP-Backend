@@ -11,6 +11,7 @@ import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { MobileAppSettingsModule } from './modules/mobile-app-settings/mobile-app-settings.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { AuthModule } from './modules/auth/auth.module';
     ModuleModule,
     UserModule,
     AuthModule,
+    MobileAppSettingsModule,
   ],
   controllers: [AppController],
   providers: [
