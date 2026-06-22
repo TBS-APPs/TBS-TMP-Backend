@@ -4,5 +4,7 @@
   "provide_email_or_id": "يرجى تقديم البريد الإلكتروني أو المعرف فقط",
   "user_not_found": "المستخدم غير موجود",
   "invalid_credentials": "البيانات المدخلة غير صحيحة",
-  "email_already_registered": "هذا البريد الإلكتروني مسجل مسبقًا"
+  "email_already_registered": "هذا البريد الإلكتروني مسجل مسبقًا",
+  "mobile_app_setting_not_found": "إعدادات تطبيق الجوال غير موجودة",
+  "platform_already_exists": "يوجد إعداد لهذه المنصة بالفعل"
 }
