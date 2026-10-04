@@ -5,6 +5,9 @@ import DynamicsSetting from '../modules/company/dynamics-settings/entities/dynam
 import { License } from '../modules/company/license/entities/license.entity';
 import Module from '../modules/module/entities/module.entity';
 import { MobileAppSetting } from '../modules/mobile-app-settings/entities/mobile-app-setting.entity';
+import { MobileAppLocale } from '../modules/mobile-app-translation/entities/mobile-app-locale.entity';
+import { MobileAppTranslationKey } from '../modules/mobile-app-translation/entities/mobile-app-translation-key.entity';
+import { MobileAppTranslation } from '../modules/mobile-app-translation/entities/mobile-app-translation.entity';
 import { User } from '../modules/user/entities/user.entity';
 import { Screen } from '../modules/screen/entities/screen.entity';
 import { Feature } from 'src/modules/company/feature/entities/feature.entity';
@@ -24,6 +27,9 @@ export default new DataSource({
     License,
     Module,
     MobileAppSetting,
+    MobileAppLocale,
+    MobileAppTranslationKey,
+    MobileAppTranslation,
     User,
     Screen,
     Feature,
