@@ -6,6 +6,7 @@ import { License } from '../modules/company/license/entities/license.entity';
 import Module from '../modules/module/entities/module.entity';
 import { MobileAppSetting } from '../modules/mobile-app-settings/entities/mobile-app-setting.entity';
 import { User } from '../modules/user/entities/user.entity';
+import { Screen } from '../modules/screen/entities/screen.entity';
 
 export default new DataSource({
   type: 'postgres',
@@ -23,6 +24,7 @@ export default new DataSource({
     Module,
     MobileAppSetting,
     User,
+    Screen,
   ],
   migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
 });
