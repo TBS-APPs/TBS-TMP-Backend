@@ -5,12 +5,14 @@ import { DynamicsSettingsModule } from './dynamics-settings/dynamics-settings.mo
 import { LicenseModule } from './license/license.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Company } from './entities/company.entity';
+import { FeatureModule } from './feature/feature.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Company]),
     DynamicsSettingsModule,
     LicenseModule,
+    FeatureModule,
   ],
   controllers: [CompanyController],
   providers: [CompanyService],

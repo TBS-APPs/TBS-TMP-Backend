@@ -7,6 +7,7 @@ import Module from '../modules/module/entities/module.entity';
 import { MobileAppSetting } from '../modules/mobile-app-settings/entities/mobile-app-setting.entity';
 import { User } from '../modules/user/entities/user.entity';
 import { Screen } from '../modules/screen/entities/screen.entity';
+import { Feature } from 'src/modules/company/feature/entities/feature.entity';
 
 export default new DataSource({
   type: 'postgres',
@@ -25,6 +26,7 @@ export default new DataSource({
     MobileAppSetting,
     User,
     Screen,
+    Feature,
   ],
   migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
 });
