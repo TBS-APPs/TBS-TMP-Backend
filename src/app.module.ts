@@ -12,6 +12,7 @@ import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MobileAppSettingsModule } from './modules/mobile-app-settings/mobile-app-settings.module';
+import { ScreenModule } from './modules/screen/screen.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { MobileAppSettingsModule } from './modules/mobile-app-settings/mobile-ap
     UserModule,
     AuthModule,
     MobileAppSettingsModule,
+    ScreenModule,
   ],
   controllers: [AppController],
   providers: [
