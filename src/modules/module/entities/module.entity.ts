@@ -1,15 +1,10 @@
-import { Exclude } from 'class-transformer';
 import { License } from 'src/modules/company/license/entities/license.entity';
 import { MainEntity } from 'src/modules/main.entity';
 import { Screen } from 'src/modules/screen/entities/screen.entity';
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -19,6 +14,12 @@ export default class Module extends MainEntity {
     unique: true,
   })
   name: string;
+
+  @Column({
+    nullable: false,
+    unique: true,
+  })
+  alias: string;
 
   @OneToMany(() => License, (license) => license.module)
   licenses: License[];
