@@ -16,6 +16,12 @@ export class MobileAppTranslationKey extends MainEntity {
   })
   description?: string;
 
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  metadata?: Record<string, unknown> | null;
+
   @OneToMany(
     () => MobileAppTranslation,
     (translation) => translation.translationKey,

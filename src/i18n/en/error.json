@@ -6,5 +6,11 @@
   "invalid_credentials": "Invalid credentials",
   "email_already_registered": "This email is already registered",
   "mobile_app_setting_not_found": "Mobile app setting not found",
-  "platform_already_exists": "A setting for this platform already exists"
+  "platform_already_exists": "A setting for this platform already exists",
+  "mobile_app_locale_not_found": "Mobile app locale not found",
+  "mobile_app_translation_key_not_found": "Mobile app translation key not found",
+  "mobile_app_translation_not_found": "Mobile app translation not found",
+  "locale_code_already_exists": "A locale with this code already exists",
+  "translation_key_already_exists": "A translation key with this key already exists",
+  "translation_already_exists": "A translation for this key and locale already exists"
 }
