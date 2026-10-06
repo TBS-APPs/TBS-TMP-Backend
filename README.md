@@ -1,7 +1,33 @@
 ## Migrations
 
+Generate a migration from entity changes (writes under `src/database/migrations/`):
+
 ```bash
-typeorm migration:generate -d src\database\data-source.ts <migration-name>
+npm run migration:generate -- src/database/migrations/<migration-name>
+```
+
+Example:
+
+```bash
+npm run migration:generate -- src/database/migrations/add-metadata-to-mobile-app-translation-key
+```
+
+Run pending migrations:
+
+```bash
+npm run migration:run
+```
+
+Show migration status:
+
+```bash
+npm run migration:show
+```
+
+Revert the last migration:
+
+```bash
+npm run migration:revert
 ```
 
 ## Postman collection

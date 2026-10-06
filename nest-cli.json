@@ -8,6 +8,10 @@
       {
         "include": "i18n/**/*",
         "watchAssets": true
+      },
+      {
+        "include": "modules/mobile-app-translation/seed/**/*",
+        "watchAssets": true
       }
     ],
     "plugins": [

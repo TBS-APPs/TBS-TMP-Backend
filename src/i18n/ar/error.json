@@ -6,5 +6,11 @@
   "invalid_credentials": "البيانات المدخلة غير صحيحة",
   "email_already_registered": "هذا البريد الإلكتروني مسجل مسبقًا",
   "mobile_app_setting_not_found": "إعدادات تطبيق الجوال غير موجودة",
-  "platform_already_exists": "يوجد إعداد لهذه المنصة بالفعل"
+  "platform_already_exists": "يوجد إعداد لهذه المنصة بالفعل",
+  "mobile_app_locale_not_found": "لغة تطبيق الجوال غير موجودة",
+  "mobile_app_translation_key_not_found": "مفتاح الترجمة غير موجود",
+  "mobile_app_translation_not_found": "الترجمة غير موجودة",
+  "locale_code_already_exists": "توجد لغة بهذا الرمز بالفعل",
+  "translation_key_already_exists": "يوجد مفتاح ترجمة بهذا الاسم بالفعل",
+  "translation_already_exists": "توجد ترجمة لهذا المفتاح وهذه اللغة بالفعل"
 }
