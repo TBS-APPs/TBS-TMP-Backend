@@ -10,12 +10,10 @@ import {
 } from 'typeorm';
 import { Company } from '../../entities/company.entity';
 import { Exclude } from 'class-transformer';
+import { MainEntity } from 'src/modules/main.entity';
 
 @Entity()
-export default class DynamicsSetting {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export default class DynamicsSetting extends MainEntity {
   @Column({
     nullable: false,
   })
@@ -49,16 +47,4 @@ export default class DynamicsSetting {
   @OneToOne(() => Company)
   @JoinColumn()
   company: Company;
-
-  @Exclude()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Exclude()
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @Exclude()
-  @DeleteDateColumn()
-  deletedAt: Date;
 }

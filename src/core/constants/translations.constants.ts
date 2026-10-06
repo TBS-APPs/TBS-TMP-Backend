@@ -23,4 +23,10 @@ export const ERROR_KEYS = createTranslationKeys('error', {
   EMAIL_ALREADY_REGISTERED: 'email_already_registered',
   MOBILE_APP_SETTING_NOT_FOUND: 'mobile_app_setting_not_found',
   PLATFORM_ALREADY_EXISTS: 'platform_already_exists',
+  MOBILE_APP_LOCALE_NOT_FOUND: 'mobile_app_locale_not_found',
+  MOBILE_APP_TRANSLATION_KEY_NOT_FOUND: 'mobile_app_translation_key_not_found',
+  MOBILE_APP_TRANSLATION_NOT_FOUND: 'mobile_app_translation_not_found',
+  LOCALE_CODE_ALREADY_EXISTS: 'locale_code_already_exists',
+  TRANSLATION_KEY_ALREADY_EXISTS: 'translation_key_already_exists',
+  TRANSLATION_ALREADY_EXISTS: 'translation_already_exists',
 });

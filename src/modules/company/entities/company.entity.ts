@@ -11,13 +11,11 @@ import {
 import { Status } from 'src/resources/enums/status.enum';
 import DynamicsSetting from '../dynamics-settings/entities/dynamics-setting.entity';
 import { License } from '../license/entities/license.entity';
-import { Exclude } from 'class-transformer';
+import { MainEntity } from 'src/modules/main.entity';
+import { Feature } from '../feature/entities/feature.entity';
 
 @Entity()
-export class Company {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Company extends MainEntity {
   @Column({
     nullable: false,
   })
@@ -43,15 +41,6 @@ export class Company {
   @OneToMany(() => License, (license) => license.company)
   licenses: License[];
 
-  @Exclude()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Exclude()
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @Exclude()
-  @DeleteDateColumn()
-  deletedAt: Date;
+  @OneToMany(() => Feature, (feature) => feature.company)
+  features: Feature[];
 }

@@ -8,12 +8,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserStatus } from '../user-status.enum';
+import { MainEntity } from 'src/modules/main.entity';
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends MainEntity {
   @Column({
     nullable: false,
     unique: true,
@@ -38,16 +36,4 @@ export class User {
     nullable: false,
   })
   status: UserStatus;
-
-  @Exclude()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Exclude()
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @Exclude()
-  @DeleteDateColumn()
-  deletedAt: Date;
 }
