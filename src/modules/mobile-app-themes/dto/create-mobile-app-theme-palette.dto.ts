@@ -57,13 +57,4 @@ export class CreateMobileAppThemePaletteDto {
   @IsNotEmpty()
   @Matches(HEX_COLOR)
   tertiary: string;
-
-  @ApiProperty({
-    required: false,
-    example: { error: '#FF3333', success: '#4BB543' },
-    additionalProperties: { type: 'string' },
-  })
-  @IsOptional()
-  @IsObject()
-  tokens?: Record<string, string> | null;
 }

@@ -19,7 +19,6 @@ export interface MobileAppThemePalettePublic {
   primary: string;
   secondary: string;
   tertiary: string;
-  tokens: Record<string, string> | null;
 }
 
 @Injectable()
@@ -154,7 +153,6 @@ export class MobileAppThemesService implements OnModuleInit {
       primary: palette.primary,
       secondary: palette.secondary,
       tertiary: palette.tertiary,
-      tokens: palette.tokens ?? null,
     };
   }
 
@@ -183,7 +181,6 @@ export class MobileAppThemesService implements OnModuleInit {
         primary: '#556B2F',
         secondary: '#eba20e',
         tertiary: '#7BC3FA',
-        tokens: null,
       },
       {
         code: 'navy',
@@ -194,7 +191,6 @@ export class MobileAppThemesService implements OnModuleInit {
         primary: '#00599C',
         secondary: '#2259BF',
         tertiary: '#DAE9F8',
-        tokens: null,
       },
       {
         code: 'metallicGold',
@@ -205,7 +201,6 @@ export class MobileAppThemesService implements OnModuleInit {
         primary: '#D4AF37',
         secondary: '#8B1E3F',
         tertiary: '#F9F3E1',
-        tokens: null,
       },
       {
         code: 'blueSpruce',
@@ -216,7 +211,6 @@ export class MobileAppThemesService implements OnModuleInit {
         primary: '#00796B',
         secondary: '#FF7043',
         tertiary: '#D9EBE9',
-        tokens: null,
       },
       {
         code: 'pacificBlue',
@@ -227,7 +221,6 @@ export class MobileAppThemesService implements OnModuleInit {
         primary: '#00ACC1',
         secondary: '#6A1B9A',
         tertiary: '#D9F3F6',
-        tokens: null,
       },
     ]);
   }
