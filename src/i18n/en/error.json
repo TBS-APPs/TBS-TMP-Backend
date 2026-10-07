@@ -12,5 +12,9 @@
   "mobile_app_translation_not_found": "Mobile app translation not found",
   "locale_code_already_exists": "A locale with this code already exists",
   "translation_key_already_exists": "A translation key with this key already exists",
-  "translation_already_exists": "A translation for this key and locale already exists"
+  "translation_already_exists": "A translation for this key and locale already exists",
+  "mobile_app_theme_palette_not_found": "Mobile app theme palette not found",
+  "theme_palette_code_already_exists": "A theme palette with this code already exists",
+  "cannot_delete_default_theme_palette": "Cannot delete the default theme palette"
 }
+
