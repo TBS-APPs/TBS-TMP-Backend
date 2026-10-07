@@ -29,4 +29,8 @@ export const ERROR_KEYS = createTranslationKeys('error', {
   LOCALE_CODE_ALREADY_EXISTS: 'locale_code_already_exists',
   TRANSLATION_KEY_ALREADY_EXISTS: 'translation_key_already_exists',
   TRANSLATION_ALREADY_EXISTS: 'translation_already_exists',
+  MOBILE_APP_THEME_PALETTE_NOT_FOUND: 'mobile_app_theme_palette_not_found',
+  THEME_PALETTE_CODE_ALREADY_EXISTS: 'theme_palette_code_already_exists',
+  CANNOT_DELETE_DEFAULT_THEME_PALETTE: 'cannot_delete_default_theme_palette',
 });
+
