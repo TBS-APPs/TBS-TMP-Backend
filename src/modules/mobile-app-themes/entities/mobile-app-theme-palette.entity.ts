@@ -47,10 +47,4 @@ export class MobileAppThemePalette extends MainEntity {
     nullable: false,
   })
   tertiary: string;
-
-  @Column({
-    type: 'jsonb',
-    nullable: true,
-  })
-  tokens: Record<string, string> | null;
 }
