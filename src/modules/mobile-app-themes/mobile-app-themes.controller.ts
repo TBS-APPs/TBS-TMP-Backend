@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -35,7 +35,7 @@ export class MobileAppThemesController {
 
   @Get(':id')
   findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Query('include') include?: string,
   ) {
     return this.mobileAppThemesService.findOne(id, { include });
@@ -43,14 +43,14 @@ export class MobileAppThemesController {
 
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateMobileAppThemePaletteDto,
   ) {
     return this.mobileAppThemesService.update(id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.mobileAppThemesService.remove(id);
   }
 }

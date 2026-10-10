@@ -84,7 +84,7 @@ export class ModuleService {
     }
   }
 
-  async findOne(id: number, presentOptions: TranslationPresentOptions = {}) {
+  async findOne(id: string, presentOptions: TranslationPresentOptions = {}) {
     try {
       const moduleRecord = await this.findModuleById(id);
       return successResponse({
@@ -97,7 +97,7 @@ export class ModuleService {
     }
   }
 
-  async update(id: number, updateModuleDto: UpdateModuleDto) {
+  async update(id: string, updateModuleDto: UpdateModuleDto) {
     try {
       const moduleRecord = await this.findModuleById(id);
       if (!moduleRecord) {
@@ -128,7 +128,7 @@ export class ModuleService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       await this.modulesRepository.delete(id);
       return successResponse();
@@ -148,7 +148,7 @@ export class ModuleService {
     });
   }
 
-  private async findModuleById(id: number) {
+  private async findModuleById(id: string) {
     return this.modulesRepository.findOne({
       where: { id },
       relations: TRANSLATION_RELATIONS,

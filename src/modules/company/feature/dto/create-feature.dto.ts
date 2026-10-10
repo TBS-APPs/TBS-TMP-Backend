@@ -3,17 +3,15 @@ import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
-  IsInt,
-  Min,
+  IsUUID,
   ValidateNested,
 } from 'class-validator';
 import { EntityTranslationItemDto } from 'src/core/utils/entity-translation';
 
 export class CreateFeatureDto {
-  @ApiProperty({ example: 1 })
-  @IsInt()
-  @Min(1)
-  companyId: number;
+  @ApiProperty({ example: '550e8400-e29b-41d4-a716-446655440000' })
+  @IsUUID('4')
+  companyId: string;
 
   @ApiProperty({
     type: [EntityTranslationItemDto],

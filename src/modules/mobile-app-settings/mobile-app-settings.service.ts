@@ -65,7 +65,7 @@ export class MobileAppSettingsService implements OnModuleInit {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const setting = await this.mobileAppSettingsRepository.findOne({
         where: { id },
@@ -91,7 +91,7 @@ export class MobileAppSettingsService implements OnModuleInit {
   }
 
   async update(
-    id: number,
+    id: string,
     updateMobileAppSettingDto: UpdateMobileAppSettingDto,
   ) {
     try {
@@ -142,7 +142,7 @@ export class MobileAppSettingsService implements OnModuleInit {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       await this.mobileAppSettingsRepository.softDelete(id);
       return successResponse();

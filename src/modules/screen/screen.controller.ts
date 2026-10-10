@@ -28,16 +28,16 @@ export class ScreenController {
 
   @Get(':id')
   findOne(@Param('id') id: string, @Query('include') include?: string) {
-    return this.screenService.findOne(+id, { include });
+    return this.screenService.findOne(id, { include });
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateScreenDto: UpdateScreenDto) {
-    return this.screenService.update(+id, updateScreenDto);
+    return this.screenService.update(id, updateScreenDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.screenService.remove(+id);
+    return this.screenService.remove(id);
   }
 }

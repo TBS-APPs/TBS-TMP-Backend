@@ -33,16 +33,16 @@ export class ModuleController {
 
   @Get(':id')
   findOne(@Param('id') id: string, @Query('include') include?: string) {
-    return this.moduleService.findOne(+id, { include });
+    return this.moduleService.findOne(id, { include });
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateModuleDto: UpdateModuleDto) {
-    return this.moduleService.update(+id, updateModuleDto);
+    return this.moduleService.update(id, updateModuleDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.moduleService.remove(+id);
+    return this.moduleService.remove(id);
   }
 }

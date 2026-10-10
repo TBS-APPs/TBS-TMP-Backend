@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -43,20 +43,20 @@ export class MobileAppTranslationController {
   }
 
   @Get('locales/:id')
-  findLocale(@Param('id', ParseIntPipe) id: number) {
+  findLocale(@Param('id', ParseUUIDPipe) id: string) {
     return this.mobileAppTranslationService.findLocale(id);
   }
 
   @Patch('locales/:id')
   updateLocale(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateMobileAppLocaleDto,
   ) {
     return this.mobileAppTranslationService.updateLocale(id, dto);
   }
 
   @Delete('locales/:id')
-  removeLocale(@Param('id', ParseIntPipe) id: number) {
+  removeLocale(@Param('id', ParseUUIDPipe) id: string) {
     return this.mobileAppTranslationService.removeLocale(id);
   }
 
@@ -96,20 +96,20 @@ export class MobileAppTranslationController {
   }
 
   @Get('keys/:id')
-  findKey(@Param('id', ParseIntPipe) id: number) {
+  findKey(@Param('id', ParseUUIDPipe) id: string) {
     return this.mobileAppTranslationService.findKey(id);
   }
 
   @Patch('keys/:id')
   updateKey(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateMobileAppTranslationKeyDto,
   ) {
     return this.mobileAppTranslationService.updateKey(id, dto);
   }
 
   @Delete('keys/:id')
-  removeKey(@Param('id', ParseIntPipe) id: number) {
+  removeKey(@Param('id', ParseUUIDPipe) id: string) {
     return this.mobileAppTranslationService.removeKey(id);
   }
 
@@ -131,20 +131,20 @@ export class MobileAppTranslationController {
   }
 
   @Get('translations/:id')
-  findTranslation(@Param('id', ParseIntPipe) id: number) {
+  findTranslation(@Param('id', ParseUUIDPipe) id: string) {
     return this.mobileAppTranslationService.findTranslation(id);
   }
 
   @Patch('translations/:id')
   updateTranslation(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateMobileAppTranslationDto,
   ) {
     return this.mobileAppTranslationService.updateTranslation(id, dto);
   }
 
   @Delete('translations/:id')
-  removeTranslation(@Param('id', ParseIntPipe) id: number) {
+  removeTranslation(@Param('id', ParseUUIDPipe) id: string) {
     return this.mobileAppTranslationService.removeTranslation(id);
   }
 }

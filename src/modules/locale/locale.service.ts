@@ -51,7 +51,7 @@ export class LocaleService implements OnModuleInit {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const locale = await this.localeRepository.findOne({ where: { id } });
       if (!locale) {
@@ -65,7 +65,7 @@ export class LocaleService implements OnModuleInit {
     }
   }
 
-  async update(id: number, dto: UpdateLocaleDto) {
+  async update(id: string, dto: UpdateLocaleDto) {
     try {
       const locale = await this.localeRepository.findOne({ where: { id } });
       if (!locale) {
@@ -84,7 +84,7 @@ export class LocaleService implements OnModuleInit {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const locale = await this.localeRepository.findOne({ where: { id } });
       if (!locale) {

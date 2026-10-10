@@ -38,7 +38,7 @@ export class UserService {
     id,
     email,
   }: {
-    id?: number;
+    id?: string;
     email?: string;
   }): Promise<ApiResponse<User | null>> {
     const i18n = I18nContext.current();

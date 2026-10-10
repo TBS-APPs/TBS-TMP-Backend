@@ -41,7 +41,7 @@ export class DynamicsSettingsService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const dynamicsSetting = await this.dynamicsSettingsRepository.findOne({
         where: { id },
@@ -52,7 +52,7 @@ export class DynamicsSettingsService {
     }
   }
 
-  async findByCompanyId(companyId: number) {
+  async findByCompanyId(companyId: string) {
     try {
       const dynamicsSetting = await this.dynamicsSettingsRepository.findOne({
         where: { company: { id: companyId } },
@@ -64,7 +64,7 @@ export class DynamicsSettingsService {
   }
 
   async upsertByCompanyId(
-    companyId: number,
+    companyId: string,
     upsertDynamicsSettingDto: UpsertDynamicsSettingDto,
   ) {
     try {
@@ -84,7 +84,7 @@ export class DynamicsSettingsService {
     }
   }
 
-  async update(id: number, updateDynamicsSettingDto: UpdateDynamicsSettingDto) {
+  async update(id: string, updateDynamicsSettingDto: UpdateDynamicsSettingDto) {
     try {
       const { companyId, ...rest } = updateDynamicsSettingDto;
       const payload =
@@ -99,7 +99,7 @@ export class DynamicsSettingsService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       await this.dynamicsSettingsRepository.softDelete(id);
       return successResponse();

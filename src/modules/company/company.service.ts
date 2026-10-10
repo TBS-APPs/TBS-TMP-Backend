@@ -80,7 +80,7 @@ export class CompanyService {
     }
   }
 
-  async findOne(id: number, presentOptions: TranslationPresentOptions = {}) {
+  async findOne(id: string, presentOptions: TranslationPresentOptions = {}) {
     try {
       const company = await this.findCompanyById(id);
       return successResponse({
@@ -92,7 +92,7 @@ export class CompanyService {
   }
 
   async findOneWithDetails(
-    where: { id: number } | { alias: string },
+    where: { id: string } | { alias: string },
     presentOptions: TranslationPresentOptions = {},
   ) {
     try {
@@ -116,7 +116,7 @@ export class CompanyService {
     }
   }
 
-  async update(id: number, updateCompanyDto: UpdateCompanyDto) {
+  async update(id: string, updateCompanyDto: UpdateCompanyDto) {
     try {
       const company = await this.findCompanyById(id);
       if (!company) {
@@ -147,7 +147,7 @@ export class CompanyService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       await this.companiesRepository.softDelete(id);
       return successResponse();
@@ -167,7 +167,7 @@ export class CompanyService {
     });
   }
 
-  private async findCompanyById(id: number) {
+  private async findCompanyById(id: string) {
     return this.companiesRepository.findOne({
       where: { id },
       relations: TRANSLATION_RELATIONS,

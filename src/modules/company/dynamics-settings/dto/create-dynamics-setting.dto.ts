@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class CreateDynamicsSettingDto {
   @IsNotEmpty()
@@ -20,5 +20,6 @@ export class CreateDynamicsSettingDto {
   resource: string;
 
   @IsNotEmpty()
-  companyId: number;
+  @IsUUID('4')
+  companyId: string;
 }

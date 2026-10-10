@@ -57,7 +57,7 @@ export class MobileAppSettingsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.mobileAppSettingsService.findOne(+id);
+    return this.mobileAppSettingsService.findOne(id);
   }
 
   @Patch(':id')
@@ -65,11 +65,11 @@ export class MobileAppSettingsController {
     @Param('id') id: string,
     @Body() updateMobileAppSettingDto: UpdateMobileAppSettingDto,
   ) {
-    return this.mobileAppSettingsService.update(+id, updateMobileAppSettingDto);
+    return this.mobileAppSettingsService.update(id, updateMobileAppSettingDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.mobileAppSettingsService.remove(+id);
+    return this.mobileAppSettingsService.remove(id);
   }
 }

@@ -21,8 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtAccessPayload): Promise<User | null> {
-    const id =
-      typeof payload.sub === 'string' ? Number(payload.sub) : payload.sub;
+    const id = payload.sub;
     const result = await this.userService.findOne({ id });
 
     if (result.status !== ApiResponseStatus.SUCCESS || !result.data) {

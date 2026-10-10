@@ -28,16 +28,16 @@ export class FeatureController {
 
   @Get(':id')
   findOne(@Param('id') id: string, @Query('include') include?: string) {
-    return this.featureService.findOne(+id, { include });
+    return this.featureService.findOne(id, { include });
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFeatureDto: UpdateFeatureDto) {
-    return this.featureService.update(+id, updateFeatureDto);
+    return this.featureService.update(id, updateFeatureDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.featureService.remove(+id);
+    return this.featureService.remove(id);
   }
 }
