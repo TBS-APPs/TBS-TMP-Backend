@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { QueryFailedError, Repository } from 'typeorm';
@@ -29,16 +29,12 @@ export interface MobileAppConfigResponse {
 }
 
 @Injectable()
-export class MobileAppSettingsService implements OnModuleInit {
+export class MobileAppSettingsService {
   constructor(
     @InjectRepository(MobileAppSetting)
     private mobileAppSettingsRepository: Repository<MobileAppSetting>,
     private readonly i18n: I18nService,
   ) {}
-
-  async onModuleInit() {
-    await this.seedDefaults();
-  }
 
   async create(createMobileAppSettingDto: CreateMobileAppSettingDto) {
     try {
@@ -178,15 +174,6 @@ export class MobileAppSettingsService implements OnModuleInit {
       });
     } catch {
       return errorResponse();
-    }
-  }
-
-  private async seedDefaults() {
-    for (const platform of Object.values(MobilePlatform)) {
-      const existing = await this.findSettingByPlatform(platform);
-      if (!existing) {
-        await this.mobileAppSettingsRepository.save({ platform });
-      }
     }
   }
 

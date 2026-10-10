@@ -1,8 +1,6 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { I18nService } from 'nestjs-i18n';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { QueryFailedError, Repository } from 'typeorm';
 import { ERROR_KEYS } from 'src/core/constants/translations.constants';
 import { ApiResponse } from 'src/core/interfaces/api-response.interface';
@@ -26,7 +24,7 @@ export type ArbMap = Record<string, string | Record<string, unknown>>;
 const ARB_IMPORT_BATCH_SIZE = 200;
 
 @Injectable()
-export class MobileAppTranslationService implements OnModuleInit {
+export class MobileAppTranslationService {
   private readonly logger = new Logger(MobileAppTranslationService.name);
 
   constructor(
@@ -38,10 +36,6 @@ export class MobileAppTranslationService implements OnModuleInit {
     private readonly translationRepository: Repository<MobileAppTranslation>,
     private readonly i18n: I18nService,
   ) {}
-
-  async onModuleInit() {
-    await this.seedDefaults();
-  }
 
   // ─── Public ───────────────────────────────────────────────────────────
 
@@ -410,74 +404,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  // ─── Seed / import helpers ────────────────────────────────────────────
-
-  private async seedDefaults() {
-    try {
-      await this.ensureLocale('en', 'English', true);
-      await this.ensureLocale('ar', 'Arabic', false);
-
-      const keyCount = await this.keyRepository.count();
-      if (keyCount > 0) {
-        return;
-      }
-
-      const enLocale = await this.localeRepository.findOne({
-        where: { code: 'en' },
-      });
-      const arLocale = await this.localeRepository.findOne({
-        where: { code: 'ar' },
-      });
-      if (!enLocale || !arLocale) {
-        return;
-      }
-
-      const enArb = this.loadSeedArb('en.arb.json');
-      const arArb = this.loadSeedArb('ar.arb.json');
-
-      if (enArb) {
-        await this.importArbForLocale(enLocale, enArb);
-        this.logger.log('Seeded English mobile app translations');
-      }
-      if (arArb) {
-        await this.importArbForLocale(arLocale, arArb);
-        this.logger.log('Seeded Arabic mobile app translations');
-      }
-    } catch (error) {
-      this.logger.error('Failed to seed mobile app translations', error);
-    }
-  }
-
-  private loadSeedArb(filename: string): Record<string, unknown> | null {
-    try {
-      const filePath = join(__dirname, 'seed', filename);
-      const raw = readFileSync(filePath, 'utf8');
-      return JSON.parse(raw) as Record<string, unknown>;
-    } catch (error) {
-      this.logger.warn(`Could not load seed file ${filename}`, error);
-      return null;
-    }
-  }
-
-  private async ensureLocale(
-    code: string,
-    name: string,
-    isDefault: boolean,
-  ): Promise<MobileAppLocale> {
-    let locale = await this.localeRepository.findOne({ where: { code } });
-    if (!locale) {
-      if (isDefault) {
-        await this.clearDefaultLocales();
-      }
-      locale = await this.localeRepository.save({
-        code,
-        name,
-        isDefault,
-        isActive: true,
-      });
-    }
-    return locale;
-  }
+  // ─── Import helpers ───────────────────────────────────────────────────
 
   private parseArb(arb: Record<string, unknown>): {
     values: Map<string, string>;
