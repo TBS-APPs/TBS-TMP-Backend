@@ -32,5 +32,11 @@ export const ERROR_KEYS = createTranslationKeys('error', {
   MOBILE_APP_THEME_PALETTE_NOT_FOUND: 'mobile_app_theme_palette_not_found',
   THEME_PALETTE_CODE_ALREADY_EXISTS: 'theme_palette_code_already_exists',
   CANNOT_DELETE_DEFAULT_THEME_PALETTE: 'cannot_delete_default_theme_palette',
+  LOCALE_NOT_FOUND: 'locale_not_found',
+  CANNOT_DELETE_DEFAULT_LOCALE: 'cannot_delete_default_locale',
+  LOCALE_NOT_FOUND_FOR_CODE: 'locale_not_found_for_code',
+  DEFAULT_LOCALE_TRANSLATION_REQUIRED: 'default_locale_translation_required',
 });
+
+
 

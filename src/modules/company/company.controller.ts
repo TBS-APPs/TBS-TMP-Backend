@@ -29,13 +29,13 @@ export class CompanyController {
   }
 
   @Get()
-  findAll() {
-    return this.companyService.findAll();
+  findAll(@Query('include') include?: string) {
+    return this.companyService.findAll({ include });
   }
 
   @Get('details')
   findDetail(@Query() query: FindCompanyDetailDto) {
-    const { id, alias } = query;
+    const { id, alias, include } = query;
     const hasId = id !== undefined;
     const hasAlias = alias !== undefined;
 
@@ -46,15 +46,18 @@ export class CompanyController {
     }
 
     if (hasId && id !== undefined) {
-      return this.companyService.findOneWithDetails({ id });
+      return this.companyService.findOneWithDetails({ id }, { include });
     }
 
-    return this.companyService.findOneWithDetails({ alias: alias as string });
+    return this.companyService.findOneWithDetails(
+      { alias: alias as string },
+      { include },
+    );
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.companyService.findOne(+id);
+  findOne(@Param('id') id: string, @Query('include') include?: string) {
+    return this.companyService.findOne(+id, { include });
   }
 
   @Patch(':id')

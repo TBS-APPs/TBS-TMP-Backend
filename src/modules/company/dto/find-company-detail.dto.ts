@@ -11,4 +11,8 @@ export class FindCompanyDetailDto {
   @IsString()
   @IsNotEmpty()
   alias?: string;
+
+  @IsOptional()
+  @IsString()
+  include?: string;
 }

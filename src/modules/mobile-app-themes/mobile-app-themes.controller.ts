@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -28,13 +29,16 @@ export class MobileAppThemesController {
   }
 
   @Get()
-  findAll() {
-    return this.mobileAppThemesService.findAll();
+  findAll(@Query('include') include?: string) {
+    return this.mobileAppThemesService.findAll({ include });
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.mobileAppThemesService.findOne(id);
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('include') include?: string,
+  ) {
+    return this.mobileAppThemesService.findOne(id, { include });
   }
 
   @Patch(':id')

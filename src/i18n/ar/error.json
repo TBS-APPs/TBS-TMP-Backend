@@ -15,6 +15,12 @@
   "translation_already_exists": "توجد ترجمة لهذا المفتاح وهذه اللغة بالفعل",
   "mobile_app_theme_palette_not_found": "لوحة ألوان تطبيق الجوال غير موجودة",
   "theme_palette_code_already_exists": "توجد لوحة ألوان بهذا الرمز بالفعل",
-  "cannot_delete_default_theme_palette": "لا يمكن حذف لوحة الألوان الافتراضية"
+  "cannot_delete_default_theme_palette": "لا يمكن حذف لوحة الألوان الافتراضية",
+  "locale_not_found": "اللغة غير موجودة",
+  "cannot_delete_default_locale": "لا يمكن حذف اللغة الافتراضية",
+  "locale_not_found_for_code": "اللغة غير موجودة لهذا الرمز",
+  "default_locale_translation_required": "ترجمة اللغة الافتراضية مطلوبة"
 }
+
+
 
