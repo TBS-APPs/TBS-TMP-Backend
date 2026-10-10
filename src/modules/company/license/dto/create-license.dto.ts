@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, IsUUID } from 'class-validator';
 
 export class CreateLicenseDto {
   @IsNotEmpty()
@@ -14,10 +14,10 @@ export class CreateLicenseDto {
   expirationDate: Date;
 
   @IsNotEmpty()
-  @IsNumber()
-  moduleId: number;
-
+  @IsUUID('4')
+  moduleId: string;
+  
   @IsNotEmpty()
-  @IsNumber()
-  companyId: number;
+  @IsUUID('4')
+  companyId: string;
 }

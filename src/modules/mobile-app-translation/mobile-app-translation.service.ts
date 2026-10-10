@@ -23,6 +23,8 @@ import { MobileAppTranslationKey } from './entities/mobile-app-translation-key.e
 
 export type ArbMap = Record<string, string | Record<string, unknown>>;
 
+const ARB_IMPORT_BATCH_SIZE = 200;
+
 @Injectable()
 export class MobileAppTranslationService implements OnModuleInit {
   private readonly logger = new Logger(MobileAppTranslationService.name);
@@ -124,7 +126,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async findLocale(id: number) {
+  async findLocale(id: string) {
     try {
       const locale = await this.localeRepository.findOne({ where: { id } });
       if (!locale) {
@@ -138,7 +140,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async updateLocale(id: number, dto: UpdateMobileAppLocaleDto) {
+  async updateLocale(id: string, dto: UpdateMobileAppLocaleDto) {
     try {
       const locale = await this.localeRepository.findOne({ where: { id } });
       if (!locale) {
@@ -157,7 +159,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async removeLocale(id: number) {
+  async removeLocale(id: string) {
     try {
       const locale = await this.localeRepository.findOne({ where: { id } });
       if (!locale) {
@@ -197,7 +199,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async findKey(id: number) {
+  async findKey(id: string) {
     try {
       const key = await this.keyRepository.findOne({ where: { id } });
       if (!key) {
@@ -211,7 +213,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async updateKey(id: number, dto: UpdateMobileAppTranslationKeyDto) {
+  async updateKey(id: string, dto: UpdateMobileAppTranslationKeyDto) {
     try {
       const key = await this.keyRepository.findOne({ where: { id } });
       if (!key) {
@@ -227,7 +229,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async removeKey(id: number) {
+  async removeKey(id: string) {
     try {
       const key = await this.keyRepository.findOne({ where: { id } });
       if (!key) {
@@ -291,7 +293,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async findTranslation(id: number) {
+  async findTranslation(id: string) {
     try {
       const translation = await this.translationRepository.findOne({
         where: { id },
@@ -308,7 +310,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async updateTranslation(id: number, dto: UpdateMobileAppTranslationDto) {
+  async updateTranslation(id: string, dto: UpdateMobileAppTranslationDto) {
     try {
       const translation = await this.translationRepository.findOne({
         where: { id },
@@ -329,7 +331,7 @@ export class MobileAppTranslationService implements OnModuleInit {
     }
   }
 
-  async removeTranslation(id: number) {
+  async removeTranslation(id: string) {
     try {
       const translation = await this.translationRepository.findOne({
         where: { id },
@@ -477,25 +479,17 @@ export class MobileAppTranslationService implements OnModuleInit {
     return locale;
   }
 
-  private async importArbForLocale(
-    locale: MobileAppLocale,
-    arb: Record<string, unknown>,
-  ): Promise<{ keysUpserted: number; translationsUpserted: number }> {
-    let keysUpserted = 0;
-    let translationsUpserted = 0;
-
-    const metadataByKey = new Map<string, Record<string, unknown>>();
-    const valuesByKey = new Map<string, string>();
+  private parseArb(arb: Record<string, unknown>): {
+    values: Map<string, string>;
+    metadata: Map<string, Record<string, unknown>>;
+  } {
+    const values = new Map<string, string>();
+    const metadata = new Map<string, Record<string, unknown>>();
 
     for (const [rawKey, rawValue] of Object.entries(arb)) {
-      if (rawKey === '@@locale') {
+      if (rawKey === '@@locale' || rawKey.startsWith('@@')) {
         continue;
       }
-
-      if (rawKey.startsWith('@@')) {
-        continue;
-      }
-
       if (rawKey.startsWith('@')) {
         const baseKey = rawKey.slice(1);
         if (
@@ -504,65 +498,117 @@ export class MobileAppTranslationService implements OnModuleInit {
           typeof rawValue === 'object' &&
           !Array.isArray(rawValue)
         ) {
-          metadataByKey.set(baseKey, rawValue as Record<string, unknown>);
+          metadata.set(baseKey, rawValue as Record<string, unknown>);
         }
         continue;
       }
-
       if (typeof rawValue === 'string') {
-        valuesByKey.set(rawKey, rawValue);
+        values.set(rawKey, rawValue);
       }
     }
 
-    const allKeys = new Set([
-      ...valuesByKey.keys(),
-      ...metadataByKey.keys(),
-    ]);
+    return { values, metadata };
+  }
 
-    for (const key of allKeys) {
-      let translationKey = await this.keyRepository.findOne({
-        where: { key },
-      });
+  private async importArbForLocale(
+    locale: MobileAppLocale,
+    arb: Record<string, unknown>,
+  ): Promise<{ keysUpserted: number; translationsUpserted: number }> {
+    const { values, metadata } = this.parseArb(arb);
+    const allKeyNames = [
+      ...new Set([...values.keys(), ...metadata.keys()]),
+    ];
 
-      const metadata = metadataByKey.get(key);
-      if (!translationKey) {
-        translationKey = await this.keyRepository.save({
-          key,
-          metadata: metadata ?? null,
-        });
-        keysUpserted += 1;
-      } else if (metadata) {
-        translationKey.metadata = metadata;
-        await this.keyRepository.save(translationKey);
-        keysUpserted += 1;
+    const existingKeys = await this.keyRepository.find();
+    const keyToId = new Map(existingKeys.map((row) => [row.key, row.id]));
+    const existingById = new Map(existingKeys.map((row) => [row.id, row]));
+
+    const keysToInsert: Array<{
+      key: string;
+      metadata: Record<string, unknown> | null;
+    }> = [];
+    const keysToUpdate: MobileAppTranslationKey[] = [];
+
+    for (const key of allKeyNames) {
+      const meta = metadata.get(key) ?? null;
+      const existingId = keyToId.get(key);
+      if (existingId == null) {
+        keysToInsert.push({ key, metadata: meta });
+      } else if (meta) {
+        const row = existingById.get(existingId);
+        if (row) {
+          row.metadata = meta;
+          keysToUpdate.push(row);
+        }
       }
+    }
 
-      const value = valuesByKey.get(key);
-      if (value === undefined) {
+    for (let i = 0; i < keysToInsert.length; i += ARB_IMPORT_BATCH_SIZE) {
+      const saved = await this.keyRepository.save(
+        keysToInsert.slice(i, i + ARB_IMPORT_BATCH_SIZE),
+      );
+      for (const row of saved) {
+        keyToId.set(row.key, row.id);
+      }
+    }
+
+    for (let i = 0; i < keysToUpdate.length; i += ARB_IMPORT_BATCH_SIZE) {
+      await this.keyRepository.save(
+        keysToUpdate.slice(i, i + ARB_IMPORT_BATCH_SIZE),
+      );
+    }
+
+    const existingTranslations = await this.translationRepository.find({
+      where: { locale: { id: locale.id } },
+      relations: { translationKey: true },
+    });
+    const translationByKeyId = new Map(
+      existingTranslations.map((row) => [row.translationKey.id, row]),
+    );
+
+    const translationsToInsert: Array<{
+      value: string;
+      translationKey: { id: string };
+      locale: { id: string };
+    }> = [];
+    const translationsToUpdate: MobileAppTranslation[] = [];
+
+    for (const [key, value] of values) {
+      const keyId = keyToId.get(key);
+      if (keyId == null) {
         continue;
       }
-
-      let translation = await this.translationRepository.findOne({
-        where: {
-          translationKey: { id: translationKey.id },
-          locale: { id: locale.id },
-        },
-      });
-
-      if (translation) {
-        translation.value = value;
-        await this.translationRepository.save(translation);
+      const current = translationByKeyId.get(keyId);
+      if (current) {
+        if (current.value !== value) {
+          current.value = value;
+          translationsToUpdate.push(current);
+        }
       } else {
-        await this.translationRepository.save({
+        translationsToInsert.push({
           value,
-          translationKey,
-          locale,
+          translationKey: { id: keyId },
+          locale: { id: locale.id },
         });
       }
-      translationsUpserted += 1;
     }
 
-    return { keysUpserted, translationsUpserted };
+    for (let i = 0; i < translationsToInsert.length; i += ARB_IMPORT_BATCH_SIZE) {
+      await this.translationRepository.save(
+        translationsToInsert.slice(i, i + ARB_IMPORT_BATCH_SIZE),
+      );
+    }
+    for (let i = 0; i < translationsToUpdate.length; i += ARB_IMPORT_BATCH_SIZE) {
+      await this.translationRepository.save(
+        translationsToUpdate.slice(i, i + ARB_IMPORT_BATCH_SIZE),
+      );
+    }
+
+    return {
+      keysUpserted: keysToInsert.length + keysToUpdate.length,
+      translationsUpserted:
+        translationsToInsert.length + translationsToUpdate.length,
+    };
   }
 
   private async clearDefaultLocales() {

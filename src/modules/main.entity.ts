@@ -7,8 +7,8 @@ import {
 } from 'typeorm';
 
 export class MainEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Exclude()
   @CreateDateColumn()

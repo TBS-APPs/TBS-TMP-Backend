@@ -1,4 +1,4 @@
 export interface JwtAccessPayload {
-  sub: number | string;
+  sub: string;
   email: string;
 }

@@ -6,7 +6,7 @@ import {
   Patch,
   Param,
   Delete,
-  ParseIntPipe,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { DynamicsSettingsService } from './dynamics-settings.service';
 import { CreateDynamicsSettingDto } from './dto/create-dynamics-setting.dto';
@@ -31,7 +31,7 @@ export class DynamicsSettingsController {
 
   @Post('company/:companyId')
   upsertByCompanyId(
-    @Param('companyId', ParseIntPipe) companyId: number,
+    @Param('companyId', ParseUUIDPipe) companyId: string,
     @Body() upsertDynamicsSettingDto: UpsertDynamicsSettingDto,
   ) {
     return this.dynamicsSettingsService.upsertByCompanyId(
@@ -41,13 +41,13 @@ export class DynamicsSettingsController {
   }
 
   @Get('company/:companyId')
-  findByCompanyId(@Param('companyId', ParseIntPipe) companyId: number) {
+  findByCompanyId(@Param('companyId', ParseUUIDPipe) companyId: string) {
     return this.dynamicsSettingsService.findByCompanyId(companyId);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.dynamicsSettingsService.findOne(+id);
+    return this.dynamicsSettingsService.findOne(id);
   }
 
   @Patch(':id')
@@ -55,11 +55,11 @@ export class DynamicsSettingsController {
     @Param('id') id: string,
     @Body() updateDynamicsSettingDto: UpdateDynamicsSettingDto,
   ) {
-    return this.dynamicsSettingsService.update(+id, updateDynamicsSettingDto);
+    return this.dynamicsSettingsService.update(id, updateDynamicsSettingDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.dynamicsSettingsService.remove(+id);
+    return this.dynamicsSettingsService.remove(id);
   }
 }

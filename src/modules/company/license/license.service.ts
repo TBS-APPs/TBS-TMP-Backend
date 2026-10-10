@@ -45,7 +45,7 @@ export class LicenseService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const license = await this.licensesRepository.findOne({
         where: { id },
@@ -56,14 +56,14 @@ export class LicenseService {
     }
   }
 
-  private findLicenseForCompany(companyId: number, licenseId: number) {
+  private findLicenseForCompany(companyId: string, licenseId: string) {
     return this.licensesRepository.findOne({
       where: { id: licenseId, company: { id: companyId } },
       relations: ['module'],
     });
   }
 
-  async findByCompanyId(companyId: number) {
+  async findBycompanyId(companyId: string) {
     try {
       const licenses = await this.licensesRepository.find({
         where: { company: { id: companyId } },
@@ -75,8 +75,8 @@ export class LicenseService {
     }
   }
 
-  async createByCompanyId(
-    companyId: number,
+  async createBycompanyId(
+    companyId: string,
     createLicenseByCompanyDto: CreateLicenseByCompanyDto,
   ) {
     try {
@@ -95,9 +95,9 @@ export class LicenseService {
     }
   }
 
-  async updateByCompanyId(
-    companyId: number,
-    licenseId: number,
+  async updateBycompanyId(
+    companyId: string,
+    licenseId: string,
     updateLicenseByCompanyDto: UpdateLicenseByCompanyDto,
   ) {
     try {
@@ -119,7 +119,7 @@ export class LicenseService {
     }
   }
 
-  async removeByCompanyId(companyId: number, licenseId: number) {
+  async removeBycompanyId(companyId: string, licenseId: string) {
     try {
       const existing = await this.findLicenseForCompany(companyId, licenseId);
       if (!existing) {
@@ -133,7 +133,7 @@ export class LicenseService {
     }
   }
 
-  async update(id: number, updateLicenseDto: UpdateLicenseDto) {
+  async update(id: string, updateLicenseDto: UpdateLicenseDto) {
     try {
       const { moduleId, companyId, ...rest } = updateLicenseDto;
       const payload = {
@@ -148,7 +148,7 @@ export class LicenseService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       await this.licensesRepository.softDelete(id);
       return successResponse();
