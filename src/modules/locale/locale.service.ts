@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { QueryFailedError, Repository } from 'typeorm';
@@ -12,16 +12,12 @@ import { UpdateLocaleDto } from './dto/update-locale.dto';
 import { Locale } from './entities/locale.entity';
 
 @Injectable()
-export class LocaleService implements OnModuleInit {
+export class LocaleService {
   constructor(
     @InjectRepository(Locale)
     private readonly localeRepository: Repository<Locale>,
     private readonly i18n: I18nService,
   ) {}
-
-  async onModuleInit() {
-    await this.seedDefaults();
-  }
 
   async create(dto: CreateLocaleDto) {
     try {
@@ -102,28 +98,6 @@ export class LocaleService implements OnModuleInit {
     } catch {
       return errorResponse();
     }
-  }
-
-  private async seedDefaults() {
-    const count = await this.localeRepository.count();
-    if (count > 0) {
-      return;
-    }
-
-    await this.localeRepository.save([
-      {
-        code: 'en',
-        name: 'English',
-        isDefault: true,
-        isActive: true,
-      },
-      {
-        code: 'ar',
-        name: 'Arabic',
-        isDefault: false,
-        isActive: true,
-      },
-    ]);
   }
 
   private async clearDefaultLocales() {

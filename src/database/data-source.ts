@@ -1,5 +1,6 @@
 import { join } from 'path';
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { SeederOptions } from 'typeorm-extension';
 import { Company } from '../modules/company/entities/company.entity';
 import { CompanyTranslation } from '../modules/company/entities/company-translation.entity';
 import DynamicsSetting from '../modules/company/dynamics-settings/entities/dynamics-setting.entity';
@@ -19,7 +20,7 @@ import { User } from '../modules/user/entities/user.entity';
 import { Screen } from '../modules/screen/entities/screen.entity';
 import { ScreenTranslation } from '../modules/screen/entities/screen-translation.entity';
 
-export default new DataSource({
+const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT ?? '5432', 10),
@@ -49,4 +50,9 @@ export default new DataSource({
     FeatureTranslation,
   ],
   migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
-});
+  // Posix globs required by typeorm-extension (Windows backslashes break matching).
+  seeds: ['src/database/seeds/**/*{.ts,.js}'],
+  factories: ['src/database/factories/**/*{.ts,.js}'],
+};
+
+export default new DataSource(options);
