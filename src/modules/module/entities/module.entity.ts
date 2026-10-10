@@ -6,15 +6,10 @@ import {
   Entity,
   OneToMany,
 } from 'typeorm';
+import { ModuleTranslation } from './module-translation.entity';
 
 @Entity()
 export default class Module extends MainEntity {
-  @Column({
-    nullable: false,
-    unique: true,
-  })
-  name: string;
-
   @Column({
     nullable: false,
     unique: true,
@@ -26,4 +21,8 @@ export default class Module extends MainEntity {
 
   @OneToMany(() => Screen, (screen) => screen.module)
   screens: Screen[];
+
+  @OneToMany(() => ModuleTranslation, (translation) => translation.module)
+  translations: ModuleTranslation[];
 }
+

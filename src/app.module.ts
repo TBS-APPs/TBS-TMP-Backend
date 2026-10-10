@@ -11,11 +11,11 @@ import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { LocaleModule } from './modules/locale/locale.module';
 import { MobileAppSettingsModule } from './modules/mobile-app-settings/mobile-app-settings.module';
 import { MobileAppThemesModule } from './modules/mobile-app-themes/mobile-app-themes.module';
 import { MobileAppTranslationModule } from './modules/mobile-app-translation/mobile-app-translation.module';
 import { ScreenModule } from './modules/screen/screen.module';
-
 
 @Module({
   imports: [
@@ -43,6 +43,7 @@ import { ScreenModule } from './modules/screen/screen.module';
       },
       resolvers: [AcceptLanguageResolver],
     }),
+    LocaleModule,
     CompanyModule,
     ModuleModule,
     UserModule,

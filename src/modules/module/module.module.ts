@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ModuleService } from './module.service';
-import { ModuleController } from './module.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { LocaleModule } from '../locale/locale.module';
+import { ModuleController } from './module.controller';
+import { ModuleService } from './module.service';
 import ModuleEntity from './entities/module.entity';
+import { ModuleTranslation } from './entities/module-translation.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ModuleEntity])],
+  imports: [
+    LocaleModule,
+    TypeOrmModule.forFeature([ModuleEntity, ModuleTranslation]),
+  ],
   controllers: [ModuleController],
   providers: [ModuleService],
 })

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ModuleService } from './module.service';
 import { CreateModuleDto } from './dto/create-module.dto';
@@ -26,13 +27,13 @@ export class ModuleController {
   }
 
   @Get()
-  findAll() {
-    return this.moduleService.findAll();
+  findAll(@Query('include') include?: string) {
+    return this.moduleService.findAll({ include });
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.moduleService.findOne(+id);
+  findOne(@Param('id') id: string, @Query('include') include?: string) {
+    return this.moduleService.findOne(+id, { include });
   }
 
   @Patch(':id')
