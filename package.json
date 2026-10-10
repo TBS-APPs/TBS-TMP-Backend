@@ -25,9 +25,11 @@
     "migration:run": "npm run typeorm -- migration:run -d src/database/data-source.ts",
     "migration:revert": "npm run typeorm -- migration:revert -d src/database/data-source.ts",
     "migration:show": "npm run typeorm -- migration:show -d src/database/data-source.ts",
-    "seed:mobile-app-translations": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seed-mobile-app-translations.ts"
+    "seed": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seed-runner.ts",
+    "seed:refresh": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seed-refresh.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.6.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
@@ -46,7 +48,8 @@
     "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.28"
+    "typeorm": "^0.3.28",
+    "typeorm-extension": "^3.9.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

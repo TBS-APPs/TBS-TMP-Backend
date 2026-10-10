@@ -1,47 +1,17 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { DataSource } from 'typeorm';
-import { Company } from '../modules/company/entities/company.entity';
-import DynamicsSetting from '../modules/company/dynamics-settings/entities/dynamics-setting.entity';
-import { License } from '../modules/company/license/entities/license.entity';
-import Module from '../modules/module/entities/module.entity';
-import { MobileAppSetting } from '../modules/mobile-app-settings/entities/mobile-app-setting.entity';
-import { MobileAppLocale } from '../modules/mobile-app-translation/entities/mobile-app-locale.entity';
-import { MobileAppTranslation } from '../modules/mobile-app-translation/entities/mobile-app-translation.entity';
-import { MobileAppTranslationKey } from '../modules/mobile-app-translation/entities/mobile-app-translation-key.entity';
-import { User } from '../modules/user/entities/user.entity';
-import { Screen } from '../modules/screen/entities/screen.entity';
-import { Feature } from 'src/modules/company/feature/entities/feature.entity';
+import { Seeder, SeederFactoryManager } from 'typeorm-extension';
+import { MobileAppLocale } from '../../modules/mobile-app-translation/entities/mobile-app-locale.entity';
+import { MobileAppTranslation } from '../../modules/mobile-app-translation/entities/mobile-app-translation.entity';
+import { MobileAppTranslationKey } from '../../modules/mobile-app-translation/entities/mobile-app-translation-key.entity';
 
 const BATCH_SIZE = 200;
-
-const dataSource = new DataSource({
-  type: 'postgres',
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT ?? '5432', 10),
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  synchronize: false,
-  logging: false,
-  entities: [
-    Company,
-    DynamicsSetting,
-    License,
-    Module,
-    MobileAppSetting,
-    MobileAppLocale,
-    MobileAppTranslationKey,
-    MobileAppTranslation,
-    User,
-    Screen,
-    Feature,
-  ],
-});
 
 function loadArb(filename: string): Record<string, unknown> {
   const filePath = join(
     __dirname,
+    '..',
     '..',
     'modules',
     'mobile-app-translation',
@@ -83,6 +53,7 @@ function parseArb(arb: Record<string, unknown>): {
 }
 
 async function ensureLocale(
+  dataSource: DataSource,
   code: string,
   name: string,
   isDefault: boolean,
@@ -109,6 +80,7 @@ async function ensureLocale(
 }
 
 async function upsertKeys(
+  dataSource: DataSource,
   keyNames: string[],
   metadata: Map<string, Record<string, unknown>>,
 ): Promise<Map<string, string>> {
@@ -152,6 +124,7 @@ async function upsertKeys(
 }
 
 async function upsertTranslations(
+  dataSource: DataSource,
   localeId: string,
   values: Map<string, string>,
   keyToId: Map<string, string>,
@@ -202,63 +175,52 @@ async function upsertTranslations(
   return toInsert.length + toUpdate.length;
 }
 
-async function main() {
-  await dataSource.initialize();
-  console.log('Connected. Seeding mobile app translations...');
+export default class MobileAppTranslationsSeeder implements Seeder {
+  track = false;
 
-  const enLocale = await ensureLocale('en', 'English', true);
-  const arLocale = await ensureLocale('ar', 'Arabic', false);
+  async run(
+    dataSource: DataSource,
+    _factoryManager: SeederFactoryManager,
+  ): Promise<void> {
+    console.log('Seeding mobile app translations...');
 
-  const enArb = parseArb(loadArb('en.arb.json'));
-  const arArb = parseArb(loadArb('ar.arb.json'));
+    const enLocale = await ensureLocale(dataSource, 'en', 'English', true);
+    const arLocale = await ensureLocale(dataSource, 'ar', 'Arabic', false);
 
-  const allKeyNames = [
-    ...new Set([...enArb.values.keys(), ...arArb.values.keys(), ...enArb.metadata.keys(), ...arArb.metadata.keys()]),
-  ];
+    const enArb = parseArb(loadArb('en.arb.json'));
+    const arArb = parseArb(loadArb('ar.arb.json'));
 
-  const mergedMetadata = new Map<string, Record<string, unknown>>([
-    ...arArb.metadata,
-    ...enArb.metadata,
-  ]);
+    const allKeyNames = [
+      ...new Set([
+        ...enArb.values.keys(),
+        ...arArb.values.keys(),
+        ...enArb.metadata.keys(),
+        ...arArb.metadata.keys(),
+      ]),
+    ];
 
-  console.log(`Upserting ${allKeyNames.length} keys...`);
-  const keyToId = await upsertKeys(allKeyNames, mergedMetadata);
+    const mergedMetadata = new Map<string, Record<string, unknown>>([
+      ...arArb.metadata,
+      ...enArb.metadata,
+    ]);
 
-  console.log('Upserting English translations...');
-  const enCount = await upsertTranslations(
-    enLocale.id,
-    enArb.values,
-    keyToId,
-  );
-  console.log(`en: ${enCount} translations upserted`);
+    console.log(`Upserting ${allKeyNames.length} keys...`);
+    const keyToId = await upsertKeys(dataSource, allKeyNames, mergedMetadata);
 
-  console.log('Upserting Arabic translations...');
-  const arCount = await upsertTranslations(
-    arLocale.id,
-    arArb.values,
-    keyToId,
-  );
-  console.log(`ar: ${arCount} translations upserted`);
+    const enCount = await upsertTranslations(
+      dataSource,
+      enLocale.id,
+      enArb.values,
+      keyToId,
+    );
+    console.log(`en: ${enCount} translations upserted`);
 
-  const keyCount = await dataSource
-    .getRepository(MobileAppTranslationKey)
-    .count();
-  const translationCount = await dataSource
-    .getRepository(MobileAppTranslation)
-    .count();
-  const localeCount = await dataSource.getRepository(MobileAppLocale).count();
-
-  console.log(
-    `Done. Totals — locales: ${localeCount}, keys: ${keyCount}, translations: ${translationCount}`,
-  );
-
-  await dataSource.destroy();
-}
-
-main().catch(async (error) => {
-  console.error('Seed failed:', error);
-  if (dataSource.isInitialized) {
-    await dataSource.destroy();
+    const arCount = await upsertTranslations(
+      dataSource,
+      arLocale.id,
+      arArb.values,
+      keyToId,
+    );
+    console.log(`ar: ${arCount} translations upserted`);
   }
-  process.exit(1);
-});
+}

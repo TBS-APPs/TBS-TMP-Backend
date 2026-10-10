@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { In, QueryFailedError, Repository } from 'typeorm';
@@ -7,7 +7,6 @@ import {
   EntityTranslationItem,
   getDefaultLocale,
   hasDefaultLocaleTranslation,
-  mapTranslationViews,
   presentTranslatedEntity,
   TranslationPresentOptions,
 } from 'src/core/utils/entity-translation';
@@ -27,64 +26,8 @@ const TRANSLATION_RELATIONS = {
   },
 } as const;
 
-const SEED_PALETTES: Array<{
-  code: string;
-  label: string;
-  isDefault: boolean;
-  sortOrder: number;
-  primary: string;
-  secondary: string;
-  tertiary: string;
-}> = [
-  {
-    code: 'olive',
-    label: 'Olive',
-    isDefault: true,
-    sortOrder: 0,
-    primary: '#556B2F',
-    secondary: '#eba20e',
-    tertiary: '#7BC3FA',
-  },
-  {
-    code: 'navy',
-    label: 'Navy',
-    isDefault: false,
-    sortOrder: 1,
-    primary: '#00599C',
-    secondary: '#2259BF',
-    tertiary: '#DAE9F8',
-  },
-  {
-    code: 'metallicGold',
-    label: 'Metallic Gold',
-    isDefault: false,
-    sortOrder: 2,
-    primary: '#D4AF37',
-    secondary: '#8B1E3F',
-    tertiary: '#F9F3E1',
-  },
-  {
-    code: 'blueSpruce',
-    label: 'Blue Spruce',
-    isDefault: false,
-    sortOrder: 3,
-    primary: '#00796B',
-    secondary: '#FF7043',
-    tertiary: '#D9EBE9',
-  },
-  {
-    code: 'pacificBlue',
-    label: 'Pacific Blue',
-    isDefault: false,
-    sortOrder: 4,
-    primary: '#00ACC1',
-    secondary: '#6A1B9A',
-    tertiary: '#D9F3F6',
-  },
-];
-
 @Injectable()
-export class MobileAppThemesService implements OnModuleInit {
+export class MobileAppThemesService {
   constructor(
     @InjectRepository(MobileAppThemePalette)
     private readonly paletteRepository: Repository<MobileAppThemePalette>,
@@ -94,10 +37,6 @@ export class MobileAppThemesService implements OnModuleInit {
     private readonly localeRepository: Repository<Locale>,
     private readonly i18n: I18nService,
   ) {}
-
-  async onModuleInit() {
-    await this.seedDefaults();
-  }
 
   async create(dto: CreateMobileAppThemePaletteDto) {
     try {
@@ -364,60 +303,6 @@ export class MobileAppThemesService implements OnModuleInit {
       .set({ isDefault: false })
       .where('isDefault = :isDefault', { isDefault: true })
       .execute();
-  }
-
-  private async seedDefaults() {
-    const count = await this.paletteRepository.count();
-    if (count === 0) {
-      for (const seed of SEED_PALETTES) {
-        const { label, ...payload } = seed;
-        const palette = await this.paletteRepository.save(payload);
-        await this.upsertTranslations(palette, [
-          { localeCode: 'en', name: label },
-          { localeCode: 'ar', name: label },
-        ]);
-      }
-      return;
-    }
-
-    await this.seedMissingPaletteTranslations();
-  }
-
-  private async seedMissingPaletteTranslations() {
-    const locales = await this.localeRepository.find({
-      where: { code: In(['en', 'ar']) },
-    });
-    if (!locales.length) {
-      return;
-    }
-
-    const palettes = await this.paletteRepository.find({
-      relations: TRANSLATION_RELATIONS,
-    });
-    const labelByCode = new Map(
-      SEED_PALETTES.map((palette) => [palette.code, palette.label]),
-    );
-
-    for (const palette of palettes) {
-      const existingCodes = new Set(
-        (palette.translations ?? [])
-          .map((translation) => translation.locale?.code)
-          .filter(Boolean),
-      );
-      const fallbackName =
-        labelByCode.get(palette.code) ??
-        mapTranslationViews(palette.translations)[0]?.name ??
-        palette.code;
-      const missing = locales
-        .filter((locale) => !existingCodes.has(locale.code))
-        .map((locale) => ({
-          localeCode: locale.code,
-          name: fallbackName,
-        }));
-      if (missing.length) {
-        await this.upsertTranslations(palette, missing);
-      }
-    }
   }
 
   private isUniqueViolation(error: unknown): boolean {
