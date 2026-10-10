@@ -1,26 +1,13 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, OneToOne, OneToMany } from 'typeorm';
 import { Status } from 'src/resources/enums/status.enum';
 import DynamicsSetting from '../dynamics-settings/entities/dynamics-setting.entity';
 import { License } from '../license/entities/license.entity';
 import { MainEntity } from 'src/modules/main.entity';
 import { Feature } from '../feature/entities/feature.entity';
+import { CompanyTranslation } from './company-translation.entity';
 
 @Entity()
 export class Company extends MainEntity {
-  @Column({
-    nullable: false,
-  })
-  name: string;
-
   @Column({
     nullable: false,
     unique: true,
@@ -43,4 +30,8 @@ export class Company extends MainEntity {
 
   @OneToMany(() => Feature, (feature) => feature.company)
   features: Feature[];
+
+  @OneToMany(() => CompanyTranslation, (translation) => translation.company)
+  translations: CompanyTranslation[];
 }
+

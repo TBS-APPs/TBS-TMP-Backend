@@ -1,5 +1,6 @@
 import { MainEntity } from 'src/modules/main.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { MobileAppThemePaletteTranslation } from './mobile-app-theme-palette-translation.entity';
 
 @Entity('mobile_app_theme_palette')
 export class MobileAppThemePalette extends MainEntity {
@@ -8,11 +9,6 @@ export class MobileAppThemePalette extends MainEntity {
     unique: true,
   })
   code: string;
-
-  @Column({
-    nullable: false,
-  })
-  name: string;
 
   @Column({
     nullable: false,
@@ -47,4 +43,11 @@ export class MobileAppThemePalette extends MainEntity {
     nullable: false,
   })
   tertiary: string;
+
+  @OneToMany(
+    () => MobileAppThemePaletteTranslation,
+    (translation) => translation.palette,
+  )
+  translations: MobileAppThemePaletteTranslation[];
 }
+

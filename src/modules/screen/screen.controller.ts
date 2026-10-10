@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ScreenService } from './screen.service';
 import { CreateScreenDto } from './dto/create-screen.dto';
 import { UpdateScreenDto } from './dto/update-screen.dto';
@@ -13,13 +22,13 @@ export class ScreenController {
   }
 
   @Get()
-  findAll() {
-    return this.screenService.findAll();
+  findAll(@Query('include') include?: string) {
+    return this.screenService.findAll({ include });
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.screenService.findOne(+id);
+  findOne(@Param('id') id: string, @Query('include') include?: string) {
+    return this.screenService.findOne(+id, { include });
   }
 
   @Patch(':id')
