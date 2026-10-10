@@ -148,7 +148,7 @@ export class MobileAppThemesService implements OnModuleInit {
     }
   }
 
-  async findOne(id: number, presentOptions: TranslationPresentOptions = {}) {
+  async findOne(id: string, presentOptions: TranslationPresentOptions = {}) {
     try {
       const palette = await this.findPaletteById(id);
       if (!palette) {
@@ -164,7 +164,7 @@ export class MobileAppThemesService implements OnModuleInit {
     }
   }
 
-  async update(id: number, dto: UpdateMobileAppThemePaletteDto) {
+  async update(id: string, dto: UpdateMobileAppThemePaletteDto) {
     try {
       const palette = await this.findPaletteById(id);
       if (!palette) {
@@ -200,7 +200,7 @@ export class MobileAppThemesService implements OnModuleInit {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const palette = await this.paletteRepository.findOne({ where: { id } });
       if (!palette) {
@@ -299,7 +299,7 @@ export class MobileAppThemesService implements OnModuleInit {
     );
   }
 
-  private async findPaletteById(id: number) {
+  private async findPaletteById(id: string) {
     return this.paletteRepository.findOne({
       where: { id },
       relations: TRANSLATION_RELATIONS,

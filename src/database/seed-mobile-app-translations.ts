@@ -111,7 +111,7 @@ async function ensureLocale(
 async function upsertKeys(
   keyNames: string[],
   metadata: Map<string, Record<string, unknown>>,
-): Promise<Map<string, number>> {
+): Promise<Map<string, string>> {
   const repo = dataSource.getRepository(MobileAppTranslationKey);
   const existing = await repo.find();
   const keyToId = new Map(existing.map((row) => [row.key, row.id]));
@@ -152,9 +152,9 @@ async function upsertKeys(
 }
 
 async function upsertTranslations(
-  localeId: number,
+  localeId: string,
   values: Map<string, string>,
-  keyToId: Map<string, number>,
+  keyToId: Map<string, string>,
 ): Promise<number> {
   const repo = dataSource.getRepository(MobileAppTranslation);
   const existing = await repo.find({
@@ -167,8 +167,8 @@ async function upsertTranslations(
 
   const toInsert: Array<{
     value: string;
-    translationKey: { id: number };
-    locale: { id: number };
+    translationKey: { id: string };
+    locale: { id: string };
   }> = [];
   const toUpdate: MobileAppTranslation[] = [];
 

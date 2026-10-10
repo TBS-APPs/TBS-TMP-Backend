@@ -6,7 +6,7 @@ import {
   Patch,
   Param,
   Delete,
-  ParseIntPipe,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { LicenseService } from './license.service';
 import { CreateLicenseDto } from './dto/create-license.dto';
@@ -29,28 +29,28 @@ export class LicenseController {
   }
 
   @Get('company/:companyId')
-  findByCompanyId(@Param('companyId', ParseIntPipe) companyId: number) {
-    return this.licenseService.findByCompanyId(companyId);
+  findBycompanyId(@Param('companyId', ParseUUIDPipe) companyId: string) {
+    return this.licenseService.findBycompanyId(companyId);
   }
 
   @Post('company/:companyId')
-  createByCompanyId(
-    @Param('companyId', ParseIntPipe) companyId: number,
+  createBycompanyId(
+    @Param('companyId', ParseUUIDPipe) companyId: string,
     @Body() createLicenseByCompanyDto: CreateLicenseByCompanyDto,
   ) {
-    return this.licenseService.createByCompanyId(
+    return this.licenseService.createBycompanyId(
       companyId,
       createLicenseByCompanyDto,
     );
   }
 
   @Patch('company/:companyId/:licenseId')
-  updateByCompanyId(
-    @Param('companyId', ParseIntPipe) companyId: number,
-    @Param('licenseId', ParseIntPipe) licenseId: number,
+  updateBycompanyId(
+    @Param('companyId', ParseUUIDPipe) companyId: string,
+    @Param('licenseId', ParseUUIDPipe) licenseId: string,
     @Body() updateLicenseByCompanyDto: UpdateLicenseByCompanyDto,
   ) {
-    return this.licenseService.updateByCompanyId(
+    return this.licenseService.updateBycompanyId(
       companyId,
       licenseId,
       updateLicenseByCompanyDto,
@@ -58,25 +58,25 @@ export class LicenseController {
   }
 
   @Delete('company/:companyId/:licenseId')
-  removeByCompanyId(
-    @Param('companyId', ParseIntPipe) companyId: number,
-    @Param('licenseId', ParseIntPipe) licenseId: number,
+  removeBycompanyId(
+    @Param('companyId', ParseUUIDPipe) companyId: string,
+    @Param('licenseId', ParseUUIDPipe) licenseId: string,
   ) {
-    return this.licenseService.removeByCompanyId(companyId, licenseId);
+    return this.licenseService.removeBycompanyId(companyId, licenseId);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.licenseService.findOne(+id);
+    return this.licenseService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateLicenseDto: UpdateLicenseDto) {
-    return this.licenseService.update(+id, updateLicenseDto);
+    return this.licenseService.update(id, updateLicenseDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.licenseService.remove(+id);
+    return this.licenseService.remove(id);
   }
 }

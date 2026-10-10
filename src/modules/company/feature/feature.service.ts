@@ -90,7 +90,7 @@ export class FeatureService {
     }
   }
 
-  async findOne(id: number, presentOptions: TranslationPresentOptions = {}) {
+  async findOne(id: string, presentOptions: TranslationPresentOptions = {}) {
     try {
       const feature = await this.findFeatureById(id);
       return successResponse({
@@ -101,7 +101,7 @@ export class FeatureService {
     }
   }
 
-  async update(id: number, updateFeatureDto: UpdateFeatureDto) {
+  async update(id: string, updateFeatureDto: UpdateFeatureDto) {
     try {
       const feature = await this.findFeatureById(id);
       if (!feature) {
@@ -136,7 +136,7 @@ export class FeatureService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       await this.featureRepository.softDelete(id);
       return successResponse();
@@ -156,7 +156,7 @@ export class FeatureService {
     });
   }
 
-  private async findFeatureById(id: number) {
+  private async findFeatureById(id: string) {
     return this.featureRepository.findOne({
       where: { id },
       relations: TRANSLATION_RELATIONS,

@@ -5,6 +5,7 @@ import {
   IsArray,
   IsInt,
   IsOptional,
+  IsUUID,
   Min,
   ValidateNested,
 } from 'class-validator';
@@ -17,11 +18,13 @@ export class CreateScreenDto {
   @Min(1)
   apiId?: number;
 
-  @ApiProperty({ required: false, example: 1 })
+  @ApiProperty({
+    required: false,
+    example: '550e8400-e29b-41d4-a716-446655440000',
+  })
   @IsOptional()
-  @IsInt()
-  @Min(1)
-  moduleId?: number;
+  @IsUUID('4')
+  moduleId?: string;
 
   @ApiProperty({
     type: [EntityTranslationItemDto],

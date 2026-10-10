@@ -1,11 +1,9 @@
-import { Type } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class FindCompanyDetailDto {
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  id?: number;
+  @IsUUID('4')
+  id?: string;
 
   @IsOptional()
   @IsString()

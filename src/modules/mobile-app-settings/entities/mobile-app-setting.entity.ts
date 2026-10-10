@@ -1,19 +1,9 @@
-import { Exclude } from 'class-transformer';
 import { MobilePlatform } from 'src/core/enums/mobile-platform.enum';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { MainEntity } from 'src/modules/main.entity';
+import { Entity, Column } from 'typeorm';
 
 @Entity()
-export class MobileAppSetting {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class MobileAppSetting extends MainEntity {
   @Column({
     type: 'enum',
     enum: MobilePlatform,
@@ -70,16 +60,4 @@ export class MobileAppSetting {
     nullable: true,
   })
   maintenanceMessage: string;
-
-  @Exclude()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Exclude()
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @Exclude()
-  @DeleteDateColumn()
-  deletedAt: Date;
 }

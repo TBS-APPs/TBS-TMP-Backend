@@ -97,7 +97,7 @@ export class ScreenService {
     }
   }
 
-  async findOne(id: number, presentOptions: TranslationPresentOptions = {}) {
+  async findOne(id: string, presentOptions: TranslationPresentOptions = {}) {
     try {
       const screen = await this.findScreenById(id);
       return successResponse({
@@ -108,7 +108,7 @@ export class ScreenService {
     }
   }
 
-  async update(id: number, updateScreenDto: UpdateScreenDto) {
+  async update(id: string, updateScreenDto: UpdateScreenDto) {
     try {
       const screen = await this.findScreenById(id);
       if (!screen) {
@@ -144,7 +144,7 @@ export class ScreenService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       await this.screenRepository.softDelete(id);
       return successResponse();
@@ -164,7 +164,7 @@ export class ScreenService {
     });
   }
 
-  private async findScreenById(id: number) {
+  private async findScreenById(id: string) {
     return this.screenRepository.findOne({
       where: { id },
       relations: TRANSLATION_RELATIONS,
